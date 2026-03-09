@@ -6,9 +6,11 @@ import random
 import re
 import urllib.error
 import urllib.request
+
 import psycopg2
 import psycopg2.extras
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, session, redirect, url_for
+from functools import wraps
 from werkzeug.utils import secure_filename
 
 
@@ -54,6 +56,8 @@ UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB
+
+ADMIN_PASSWORD      = os.getenv("ADMIN_PASSWORD", "admin1234")
 
 SIMULATE_AI         = os.getenv("SIMULATE_AI", "0") == "1"
 USE_GEMINI          = os.getenv("USE_GEMINI", "1") == "1"
@@ -502,7 +506,36 @@ def index():
     return render_template("index.html", message=None)
 
 
+def admin_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not session.get("admin_logged_in"):
+            return redirect(url_for("admin_login"))
+        return f(*args, **kwargs)
+    return decorated
+
+
+@app.route("/admin/login", methods=["GET", "POST"])
+def admin_login():
+    error = None
+    if request.method == "POST":
+        pwd = request.form.get("password", "")
+        if pwd == ADMIN_PASSWORD:
+            session["admin_logged_in"] = True
+            return redirect(url_for("admin"))
+        else:
+            error = "Mot de passe incorrect."
+    return render_template("admin_login.html", error=error)
+
+
+@app.route("/admin/logout")
+def admin_logout():
+    session.pop("admin_logged_in", None)
+    return redirect(url_for("admin_login"))
+
+
 @app.route("/admin")
+@admin_required
 def admin():
     conn = get_db()
     try:

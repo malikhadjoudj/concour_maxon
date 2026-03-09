@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Connexion</title>
+    <style>
+        :root {
+            --red: #dc2b23;
+            --red-dark: #b51f19;
+            --bg: #f5efe9;
+            --card: #fffdf9;
+            --line: #e5d8cc;
+            --ink: #2f2a26;
+            --muted: #6f655d;
+            --err-bg: #fdeeee;
+            --err-tx: #92221d;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(circle at 10% 10%, #fff6f2 0%, var(--bg) 60%);
+            font-family: "Segoe UI", Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 36px 32px;
+            width: 100%;
+            max-width: 380px;
+            box-shadow: 0 10px 30px rgba(72, 42, 34, 0.1);
+        }
+
+        .logo {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 22px;
+            color: var(--ink);
+        }
+
+        p {
+            margin: 0 0 24px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .error {
+            background: var(--err-bg);
+            color: var(--err-tx);
+            border: 1px solid #f4caca;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--ink);
+        }
+
+        input[type="password"] {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #fff;
+            border-radius: 10px;
+            min-height: 48px;
+            padding: 11px 14px;
+            font-size: 16px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        input[type="password"]:focus {
+            border-color: var(--red);
+            box-shadow: 0 0 0 3px rgba(220, 43, 35, 0.12);
+        }
+
+        button {
+            margin-top: 14px;
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            min-height: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, var(--red), var(--red-dark));
+            transition: filter .15s, transform .12s;
+        }
+
+        button:hover {
+            filter: brightness(1.05);
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <span class="logo">PALMARY ADMIN</span>
+        <h1>Connexion</h1>
+        <p>Espace réservé à l'administrateur du concours.</p>
+
+        {% if error %}
+        <div class="error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <label for="password">Mot de passe</label>
+            <input id="password" type="password" name="password" required autofocus placeholder="••••••••">
+            <button type="submit">Entrer</button>
+        </form>
+    </div>
+</body>
+</html>
