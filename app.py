@@ -141,7 +141,7 @@ def init_db():
 GEMINI_PROMPT = """
 Tu es un verificateur d'images pour un concours.
 Tu dois verifier si la photo contient TOUS les elements suivants:
-1) Une assiette avec un gateau
+1) Des gateaux (biscuits, petits gateaux, patisseries) peu importe le support (assiette, plateau, table, boite, etc.)
 2) Le chocolat Soltana
 3) Le paquet de gateau Maxon
 
