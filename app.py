@@ -139,12 +139,26 @@ def init_db():
 # ---------------------------------------------------------------------------
 
 GEMINI_PROMPT = """
-Tu es un verificateur d'images pour un concours.
+Tu es un verificateur d'images pour un concours de patisserie algerien.
 Tu dois verifier si la photo contient TOUS les elements suivants:
-1) Des gateaux (biscuits, petits gateaux, patisseries) peu importe le support (assiette, plateau, table, boite, etc.)
-2) Le chocolat Soltana
-3) Le paquet de gateau Maxon
 
+1) Des gateaux ou biscuits (bniwen) peu importe comment ils sont presentes:
+   - sur une assiette, plateau, table, boite, tissu, ou n'importe quel support
+   - entiers ou en morceaux
+
+2) Le produit Soltana. Accepte tous ces cas:
+   - paquet ferme avec nom visible
+   - paquet ouvert avec nom partiellement visible
+   - paquet dechire mais on devine "Soltana" ou une partie du logo
+   - emballage froisse mais identifiable
+   - si au moins une partie du nom ou du logo Soltana est reconnaissable, accepte
+
+3) Le produit Maxon. Accepte tous ces cas:
+   - paquet ferme avec nom visible
+   - paquet ouvert avec nom partiellement visible
+   - paquet dechire mais on devine "Maxon" ou une partie du logo
+   - emballage froisse mais identifiable
+   - si au moins une partie du nom ou du logo Maxon est reconnaissable, accepte
 Reponds uniquement en JSON strict, sans markdown, avec ce schema exact:
 {
   "has_plate_and_cake": true,
@@ -159,7 +173,8 @@ Reponds uniquement en JSON strict, sans markdown, avec ce schema exact:
 
 Contraintes:
 - confidence_* doit etre un entier entre 0 et 100.
-- Sois strict: true seulement si l'element est clairement visible.
+- Sois indulgent pour les marques: un paquet partiellement visible ou dechire est accepte.
+- Sois strict uniquement si aucun element de la marque n'est reconnaissable du tout.
 - valid=true uniquement si les 3 premiers champs sont true.
 """.strip()
 
