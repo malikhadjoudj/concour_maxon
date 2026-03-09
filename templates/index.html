@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concours Palmary</title>
+    <style>
+        :root {
+            --palmary-red: #dc2b23;
+            --palmary-red-dark: #b51f19;
+            --palmary-sand: #f6f1eb;
+            --palmary-cream: #fffdf9;
+            --ink: #2e2926;
+            --muted: #746b63;
+            --ok-bg: #edf7ef;
+            --ok-tx: #1f6d3b;
+            --err-bg: #fdeeee;
+            --err-tx: #92221d;
+            --radius: 16px;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+            color: var(--ink);
+            background: radial-gradient(circle at 10% 10%, #fff6f2 0%, var(--palmary-sand) 40%, #f1ebe4 100%);
+            padding: clamp(14px, 2.8vw, 28px) clamp(12px, 2.2vw, 18px);
+        }
+
+        .shell {
+            max-width: 980px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 22px;
+        }
+
+        .hero,
+        .card {
+            background: var(--palmary-cream);
+            border: 1px solid #eadfd4;
+            border-radius: var(--radius);
+            box-shadow: 0 10px 28px rgba(72, 42, 34, 0.08);
+        }
+
+        .hero {
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            right: -80px;
+            top: -70px;
+            background: radial-gradient(circle, rgba(220, 43, 35, 0.13), transparent 65%);
+            pointer-events: none;
+        }
+
+        .brand-pill {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: .4px;
+            color: #fff;
+            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
+        }
+
+        h1 {
+            margin: 14px 0 10px;
+            font-size: clamp(26px, 5vw, 34px);
+            line-height: 1.12;
+        }
+
+        .hero p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .card {
+            padding: 26px;
+        }
+
+        h2 {
+            margin: 0 0 16px;
+            font-size: clamp(20px, 3.6vw, 22px);
+        }
+
+        .alert {
+            border-radius: 12px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border: 1px solid transparent;
+            font-size: 14px;
+        }
+
+        .alert.success {
+            background: var(--ok-bg);
+            color: var(--ok-tx);
+            border-color: #cde9d6;
+        }
+
+        .alert.error {
+            background: var(--err-bg);
+            color: var(--err-tx);
+            border-color: #f4caca;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .field {
+            margin-bottom: 12px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            border: 1px solid #dacfc4;
+            background: #fff;
+            border-radius: 10px;
+            min-height: 48px;
+            padding: 11px 12px;
+            font-size: 16px;
+            color: var(--ink);
+            outline: none;
+            transition: border-color .2s, box-shadow .2s;
+        }
+
+        input:focus {
+            border-color: var(--palmary-red);
+            box-shadow: 0 0 0 3px rgba(220, 43, 35, 0.12);
+        }
+
+        .file-help {
+            margin-top: 6px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        button {
+            margin-top: 8px;
+            width: 100%;
+            border: 0;
+            border-radius: 12px;
+            min-height: 50px;
+            padding: 13px 16px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
+            transition: transform .12s, filter .12s;
+        }
+
+        button:hover {
+            filter: brightness(1.04);
+            transform: translateY(-1px);
+        }
+
+        .admin-link {
+            margin-top: 12px;
+            text-align: right;
+        }
+
+        .admin-link a {
+            color: #7d7269;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .admin-link a:hover {
+            color: var(--palmary-red-dark);
+        }
+
+        @media (max-width: 860px) {
+            .shell {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+
+            .hero {
+                order: 2;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .card,
+            .hero {
+                padding: 18px;
+                border-radius: 14px;
+            }
+
+            .alert {
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 10px;
+            }
+
+            .file-help {
+                font-size: 11px;
+                line-height: 1.35;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <section class="hero">
+            <span class="brand-pill">THEME PALMARY</span>
+            <h1>Concours photo Palmary</h1>
+            <p>
+                Partagez une photo de votre gateau avec les produits visibles.
+                Remplissez vos informations puis envoyez votre participation.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>Formulaire de participation</h2>
+
+            {% if message %}
+            <div class="alert {{ 'success' if status == 'success' else 'error' }}">
+                {{ message }}
+            </div>
+            {% endif %}
+
+            <form method="POST" enctype="multipart/form-data">
+                <div class="grid">
+                    <div class="field">
+                        <label for="nom">Nom</label>
+                        <input id="nom" type="text" name="nom" required placeholder="Ex: Dupont" autocomplete="family-name">
+                    </div>
+
+                    <div class="field">
+                        <label for="prenom">Prenom</label>
+                        <input id="prenom" type="text" name="prenom" required placeholder="Ex: Sara" autocomplete="given-name">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="instagram">Instagram</label>
+                    <input id="instagram" type="text" name="instagram" required placeholder="Ex: @votrecompte" autocomplete="username" autocapitalize="off" autocorrect="off">
+                </div>
+
+                <div class="grid">
+                    <div class="field">
+                        <label for="email">Email</label>
+                        <input id="email" type="email" name="email" required placeholder="Ex: sara@email.com" autocomplete="email" inputmode="email" autocapitalize="off">
+                    </div>
+
+                    <div class="field">
+                        <label for="telephone">Numero de telephone</label>
+                        <input id="telephone" type="tel" name="telephone" required placeholder="Ex: 0550 00 00 00" autocomplete="tel" inputmode="tel">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="photo">Image du gateau</label>
+                    <input id="photo" type="file" name="photo" accept="image/*" required>
+                    <div class="file-help">
+                        Formats acceptes: PNG, JPG, JPEG. L'IA Gemini valide seulement si l'image contient
+                        une assiette de gateau + chocolat Soltana + paquet Maxon.
+                    </div>
+                </div>
+
+                <button type="submit">Envoyer ma participation</button>
+            </form>
+
+            <div class="admin-link">
+                <a href="/admin">Acces admin</a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

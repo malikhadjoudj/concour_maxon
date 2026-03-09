@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Concours Palmary</title>
+    <style>
+        :root {
+            --palmary-red: #dc2b23;
+            --palmary-red-dark: #b51f19;
+            --bg: #f5efe9;
+            --card: #fffdf9;
+            --line: #e5d8cc;
+            --ink: #2f2a26;
+            --muted: #6f655d;
+            --ok: #1e6c3a;
+            --ko: #a62922;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 26px 18px;
+            font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+            background: linear-gradient(180deg, #f9f3ed 0%, var(--bg) 100%);
+            color: var(--ink);
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .head {
+            margin-bottom: 18px;
+        }
+
+        .head h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .head p {
+            margin: 8px 0 0;
+            color: var(--muted);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .stat span {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .stat strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 28px;
+        }
+
+        .table-card,
+        .draw-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 20px rgba(62, 35, 28, 0.06);
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 980px;
+        }
+
+        .desktop-table {
+            display: block;
+        }
+
+        .mobile-list {
+            display: none;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--line);
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: middle;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .status.valid {
+            color: var(--ok);
+            font-weight: 700;
+        }
+
+        .status.invalid {
+            color: var(--ko);
+            font-weight: 700;
+        }
+
+        .thumb {
+            width: 56px;
+            height: 56px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+            background: #fff;
+        }
+
+        .analysis {
+            min-width: 320px;
+            color: #5f554d;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .mobile-card {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fff;
+        }
+
+        .mobile-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .mobile-top .thumb {
+            width: 52px;
+            height: 52px;
+            flex: 0 0 auto;
+        }
+
+        .mobile-name {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .mobile-meta {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .mobile-row {
+            display: grid;
+            grid-template-columns: 105px 1fr;
+            gap: 8px;
+            align-items: start;
+            font-size: 13px;
+            margin-top: 6px;
+        }
+
+        .mobile-row span:first-child {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .btn-draw {
+            border: 0;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
+        }
+
+        .btn-draw:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        #resultat {
+            margin-top: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--ok);
+        }
+
+        .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            color: var(--palmary-red-dark);
+        }
+
+        @media (max-width: 900px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .head h1 {
+                font-size: 24px;
+            }
+
+            .table-card,
+            .draw-card {
+                padding: 12px;
+            }
+
+            .desktop-table {
+                display: none;
+            }
+
+            .mobile-list {
+                display: block;
+            }
+
+            .btn-draw {
+                width: 100%;
+                min-height: 48px;
+                font-size: 16px;
+            }
+
+            #resultat {
+                font-size: 16px;
+                line-height: 1.35;
+            }
+        }
+
+        @media (max-width: 420px) {
+            body {
+                padding: 12px 10px;
+            }
+
+            .mobile-row {
+                grid-template-columns: 92px 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <div class="head">
+            <h1>Tableau de bord admin</h1>
+            <p>Gestion des participations du concours Palmary.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <span>Total participants</span>
+                <strong>{{ participants|length }}</strong>
+            </div>
+            <div class="stat">
+                <span>Participants valides</span>
+                <strong>{{ valides|length }}</strong>
+            </div>
+        </div>
+
+        <section class="table-card">
+            <h2>Participants</h2>
+            <div class="desktop-table">
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Photo</th>
+                                <th>Nom</th>
+                                <th>Prenom</th>
+                                <th>Instagram</th>
+                                <th>Email</th>
+                                <th>Telephone</th>
+                                <th>Statut</th>
+                                <th>Analyse IA</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for p in participants %}
+                            <tr>
+                                <td>
+                                    {% if p['photo_path'] %}
+                                    <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
+                                    {% else %}
+                                    -
+                                    {% endif %}
+                                </td>
+                                <td>{{ p['nom'] }}</td>
+                                <td>{{ p['prenom'] or '-' }}</td>
+                                <td>{{ p['instagram'] or '-' }}</td>
+                                <td>{{ p['email'] }}</td>
+                                <td>{{ p['telephone'] or '-' }}</td>
+                                <td class="status {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
+                                    {% if p['est_valide'] %}Valide{% else %}Rejete{% endif %}
+                                </td>
+                                <td class="analysis">{{ p['analyse_detail'] or '-' }}</td>
+                                <td>{{ p['date_inscription'] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mobile-list">
+                {% for p in participants %}
+                <article class="mobile-card">
+                    <div class="mobile-top">
+                        {% if p['photo_path'] %}
+                        <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
+                        {% else %}
+                        <div class="thumb"></div>
+                        {% endif %}
+
+                        <div>
+                            <div class="mobile-name">{{ p['prenom'] or '' }} {{ p['nom'] }}</div>
+                            <div class="mobile-meta">{{ p['date_inscription'] }}</div>
+                        </div>
+                    </div>
+
+                    <div class="mobile-row">
+                        <span>Instagram</span>
+                        <span>{{ p['instagram'] or '-' }}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span>Email</span>
+                        <span>{{ p['email'] }}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span>Telephone</span>
+                        <span>{{ p['telephone'] or '-' }}</span>
+                    </div>
+                    <div class="mobile-row">
+                        <span>Statut</span>
+                        <span class="status {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
+                            {% if p['est_valide'] %}Valide{% else %}Rejete{% endif %}
+                        </span>
+                    </div>
+                    <div class="mobile-row">
+                        <span>Analyse IA</span>
+                        <span>{{ p['analyse_detail'] or '-' }}</span>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="draw-card">
+            <h2>Tirage au sort</h2>
+            <p>Le tirage se fait uniquement parmi les participants valides.</p>
+            <button class="btn-draw" onclick="lancerTirage()">Lancer le tirage</button>
+            <div id="resultat"></div>
+        </section>
+
+        <a href="/" class="back-link">Retour au formulaire</a>
+    </div>
+
+    <script>
+        function lancerTirage() {
+            const btn = document.querySelector('.btn-draw');
+            const resultat = document.getElementById('resultat');
+
+            btn.disabled = true;
+            resultat.textContent = 'Tirage en cours...';
+
+            fetch('/tirage', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => {
+                    resultat.textContent = data;
+                    btn.disabled = false;
+                })
+                .catch(() => {
+                    resultat.textContent = 'Erreur lors du tirage.';
+                    btn.disabled = false;
+                });
+        }
+    </script>
+</body>
+</html>
