@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — Concours Gâteau Maxon</title>
+    <title>Admin — Concours Maxon</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,20 +11,15 @@
             --maxon-purple-mid:   #5a2d9c;
             --maxon-purple-light: #7b4fc9;
             --maxon-violet-glow:  #9b6fe0;
-            --soltana-choc:       #5a2d0c;
             --soltana-caramel:    #c47a2b;
             --soltana-gold:       #e8a825;
-            --soltana-cream:      #fdf3e1;
             --white:              #fffef9;
             --ink:                #1a0d2e;
             --muted:              #7a6a9a;
-            --border:             rgba(154,111,224,0.25);
             --ok:                 #1e6c3a;
             --ko:                 #a62922;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
         body {
             min-height: 100vh;
             font-family: 'Nunito', sans-serif;
@@ -35,371 +30,106 @@
                 radial-gradient(ellipse 500px 400px at -5% 95%, #c47a2b33 0%, transparent 55%);
             padding: clamp(16px, 2.5vw, 32px) clamp(12px, 2vw, 20px);
         }
-
         body::before {
             content: "🎂 🍫 🎂 🍫 🎂 🍫";
-            position: fixed;
-            inset: 0;
-            font-size: 28px;
-            word-spacing: 50px;
-            line-height: 90px;
-            letter-spacing: 40px;
-            opacity: 0.03;
-            pointer-events: none;
-            z-index: 0;
-            overflow: hidden;
+            position: fixed; inset: 0;
+            font-size: 28px; word-spacing: 50px; line-height: 90px; letter-spacing: 40px;
+            opacity: 0.03; pointer-events: none; z-index: 0; overflow: hidden;
         }
+        .wrap { position: relative; z-index: 1; max-width: 1300px; margin: 0 auto; }
 
-        .wrap {
-            position: relative;
-            z-index: 1;
-            max-width: 1300px;
-            margin: 0 auto;
-        }
-
-        /* ── Header ── */
-        .page-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 24px;
-        }
-
+        /* Header */
+        .page-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; animation: fadeUp .4s ease both; }
         .page-head-left { display: flex; align-items: center; gap: 14px; }
+        .head-icon { width: 52px; height: 52px; border-radius: 16px; background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel)); display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 6px 18px rgba(232,168,37,0.4); flex-shrink: 0; }
+        .page-head h1 { font-family: 'Playfair Display', serif; font-size: clamp(20px, 3vw, 28px); font-weight: 900; color: #fff; }
+        .page-head p { font-size: 13px; color: rgba(220,205,255,0.65); margin-top: 2px; }
+        .back-link { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; border-radius: 10px; border: 1px solid rgba(154,111,224,0.35); background: rgba(255,255,255,0.06); color: rgba(220,205,255,0.8); text-decoration: none; font-size: 13px; font-weight: 700; transition: background .2s, color .2s; }
+        .back-link:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
-        .head-icon {
-            width: 52px; height: 52px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel));
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-            box-shadow: 0 6px 18px rgba(232,168,37,0.4);
-            flex-shrink: 0;
-        }
+        /* Stats */
+        .stats { display: grid; grid-template-columns: repeat(2,1fr); gap: 14px; margin-bottom: 20px; animation: fadeUp .4s .05s ease both; }
+        .stat { background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)); border: 1px solid rgba(154,111,224,0.3); border-radius: 18px; padding: 18px 20px; position: relative; overflow: hidden; box-shadow: 0 8px 24px rgba(10,0,30,0.25); }
+        .stat::after { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--maxon-purple-light), var(--soltana-gold)); }
+        .stat .stat-label { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: rgba(220,205,255,0.6); }
+        .stat .stat-value { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: #fff; line-height: 1; margin-top: 4px; }
+        .stat .stat-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 36px; opacity: 0.18; }
 
-        .page-head h1 {
-            font-family: 'Playfair Display', Georgia, serif;
-            font-size: clamp(20px, 3vw, 28px);
-            font-weight: 900;
-            color: #fff;
-        }
+        /* Cards */
+        .section-card { background: var(--white); border: 1px solid rgba(154,111,224,0.15); border-radius: 20px; padding: 22px 20px; margin-bottom: 18px; box-shadow: 0 16px 44px rgba(10,0,30,0.18); position: relative; overflow: hidden; animation: fadeUp .4s .1s ease both; }
+        .section-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--maxon-purple), var(--maxon-violet-glow), var(--soltana-gold)); }
+        .section-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--maxon-purple); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
 
-        .page-head p {
-            font-size: 13px;
-            color: rgba(220,205,255,0.65);
-            margin-top: 2px;
-        }
-
-        .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 9px 16px;
-            border-radius: 10px;
-            border: 1px solid rgba(154,111,224,0.35);
-            background: rgba(255,255,255,0.06);
-            color: rgba(220,205,255,0.8);
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 700;
-            transition: background .2s, color .2s;
-        }
-
-        .back-link:hover {
-            background: rgba(255,255,255,0.12);
-            color: #fff;
-        }
-
-        /* ── Stats ── */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .stat {
-            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-            border: 1px solid rgba(154,111,224,0.3);
-            border-radius: 18px;
-            padding: 18px 20px;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 8px 24px rgba(10,0,30,0.25);
-        }
-
-        .stat::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--maxon-purple-light), var(--soltana-gold));
-        }
-
-        .stat .stat-label {
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.8px;
-            text-transform: uppercase;
-            color: rgba(220,205,255,0.6);
-        }
-
-        .stat .stat-value {
-            font-family: 'Playfair Display', serif;
-            font-size: 44px;
-            font-weight: 900;
-            color: #fff;
-            line-height: 1;
-            margin-top: 4px;
-        }
-
-        .stat .stat-icon {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 36px;
-            opacity: 0.18;
-        }
-
-        /* ── Cards ── */
-        .section-card {
-            background: var(--white);
-            border: 1px solid rgba(154,111,224,0.15);
-            border-radius: 20px;
-            padding: 22px 20px;
-            margin-bottom: 18px;
-            box-shadow: 0 16px 44px rgba(10,0,30,0.18);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .section-card::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--maxon-purple), var(--maxon-violet-glow), var(--soltana-gold));
-        }
-
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--maxon-purple);
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* ── Table ── */
+        /* Table */
         .table-wrap { overflow-x: auto; }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 1000px;
-        }
-
-        th {
-            background: rgba(61,26,110,0.06);
-            color: var(--maxon-purple);
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            padding: 10px 10px;
-            text-align: left;
-            border-bottom: 1.5px solid rgba(154,111,224,0.15);
-        }
-
-        td {
-            padding: 10px 10px;
-            border-bottom: 1px solid rgba(154,111,224,0.1);
-            font-size: 13.5px;
-            vertical-align: middle;
-            color: var(--ink);
-        }
-
+        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        th { background: rgba(61,26,110,0.06); color: var(--maxon-purple); font-size: 11px; font-weight: 800; letter-spacing: 0.7px; text-transform: uppercase; padding: 10px; text-align: left; border-bottom: 1.5px solid rgba(154,111,224,0.15); }
+        td { padding: 10px; border-bottom: 1px solid rgba(154,111,224,0.1); font-size: 13.5px; vertical-align: middle; }
         tr:last-child td { border-bottom: none; }
         tr:hover td { background: rgba(154,111,224,0.04); }
+        .thumb { width: 56px; height: 56px; object-fit: cover; border-radius: 12px; border: 2px solid rgba(154,111,224,0.2); background: #f3eef8; }
+        .status-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+        .status-badge.valid { background: #e8f5e9; color: var(--ok); border: 1px solid #c8e6c9; }
+        .status-badge.valid::before { content: "✓ "; }
+        .status-badge.invalid { background: #fce4ec; color: var(--ko); border: 1px solid #f8bbd0; }
+        .status-badge.invalid::before { content: "✗ "; }
+        .analysis-cell { font-size: 12px; color: #6b5d7a; line-height: 1.45; max-width: 280px; }
 
-        .thumb {
-            width: 56px;
-            height: 56px;
-            object-fit: cover;
-            border-radius: 12px;
-            border: 2px solid rgba(154,111,224,0.2);
-            background: #f3eef8;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 0.4px;
-        }
-
-        .status-badge.valid {
-            background: #e8f5e9;
-            color: var(--ok);
-            border: 1px solid #c8e6c9;
-        }
-
-        .status-badge.valid::before { content: "✓"; }
-
-        .status-badge.invalid {
-            background: #fce4ec;
-            color: var(--ko);
-            border: 1px solid #f8bbd0;
-        }
-
-        .status-badge.invalid::before { content: "✗"; }
-
-        .analysis-cell {
-            font-size: 12px;
-            color: #6b5d7a;
-            line-height: 1.45;
-            max-width: 280px;
-        }
-
-        /* ── Draw section ── */
-        .draw-inner {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        .draw-desc {
-            font-size: 14px;
-            color: var(--muted);
-        }
-
-        .btn-draw {
-            border: 0;
-            border-radius: 14px;
-            padding: 16px 28px;
-            font-size: 16px;
-            font-weight: 800;
-            font-family: 'Nunito', sans-serif;
-            cursor: pointer;
-            color: #fff;
-            background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930);
-            box-shadow: 0 8px 24px rgba(61,26,110,0.45);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform .12s, box-shadow .12s;
-            align-self: flex-start;
-        }
-
-        .btn-draw:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 32px rgba(61,26,110,0.55);
-        }
-
-        .btn-draw:disabled {
-            opacity: .55;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        #resultat {
-            font-size: 17px;
-            font-weight: 800;
-            color: var(--ok);
-            padding: 14px 18px;
-            background: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            border-radius: 12px;
-            display: none;
-        }
-
-        /* ── Mobile cards ── */
+        /* Mobile */
         .desktop-table { display: block; }
-        .mobile-list   { display: none; }
-
-        .mobile-card {
-            border: 1px solid rgba(154,111,224,0.15);
-            border-radius: 14px;
-            padding: 14px;
-            margin-bottom: 10px;
-            background: #fff;
-        }
-
-        .mobile-top {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 10px;
-        }
-
+        .mobile-list { display: none; }
+        .mobile-card { border: 1px solid rgba(154,111,224,0.15); border-radius: 14px; padding: 14px; margin-bottom: 10px; background: #fff; }
+        .mobile-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .mobile-name { font-size: 15px; font-weight: 800; color: var(--maxon-purple); }
         .mobile-meta { font-size: 12px; color: var(--muted); }
+        .mobile-row { display: grid; grid-template-columns: 100px 1fr; gap: 6px; font-size: 13px; margin-top: 6px; align-items: start; }
+        .mobile-row span:first-child { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); padding-top: 1px; }
 
-        .mobile-row {
-            display: grid;
-            grid-template-columns: 100px 1fr;
-            gap: 6px;
-            font-size: 13px;
-            margin-top: 6px;
-            align-items: start;
-        }
+        /* ════ WHEEL ════ */
+        .draw-layout { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; }
+        .draw-info { display: flex; flex-direction: column; gap: 16px; }
+        .draw-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
+        .btn-draw { border: 0; border-radius: 14px; padding: 16px 28px; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; color: #fff; background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930); box-shadow: 0 8px 24px rgba(61,26,110,0.45); display: inline-flex; align-items: center; gap: 10px; transition: transform .12s, box-shadow .12s; align-self: flex-start; }
+        .btn-draw:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(61,26,110,0.55); }
+        .btn-draw:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #draw-result { display: none; padding: 16px 18px; border-radius: 14px; font-size: 15px; font-weight: 700; line-height: 1.5; }
+        #draw-result.show-win { display: block; background: linear-gradient(135deg, #e8f5e9, #f0fff4); border: 2px solid #81c784; color: #1b5e20; }
+        .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #2e7d32; margin-bottom: 6px; }
+        .winner-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: #1b5e20; }
+        .winner-email { font-size: 13px; color: #388e3c; margin-top: 4px; }
 
-        .mobile-row span:first-child {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-            color: var(--muted);
-            padding-top: 1px;
-        }
+        .wheel-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .wheel-wrap { position: relative; width: 300px; height: 300px; }
+        .wheel-pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); z-index: 10; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 30px solid var(--soltana-gold); filter: drop-shadow(0 4px 10px rgba(232,168,37,0.7)); }
+        .wheel-pointer::after { content: ""; position: absolute; top: -42px; left: -10px; width: 20px; height: 20px; background: var(--soltana-gold); border-radius: 50%; box-shadow: 0 0 10px rgba(232,168,37,0.6); }
+        canvas#wheel { width: 300px; height: 300px; border-radius: 50%; box-shadow: 0 0 0 6px rgba(61,26,110,0.2), 0 0 0 12px rgba(154,111,224,0.1), 0 20px 50px rgba(10,0,30,0.35); display: block; }
+        .wheel-hub { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel)); border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 5; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+        .wheel-status { font-size: 13px; font-weight: 700; color: rgba(220,205,255,0.7); text-align: center; min-height: 20px; }
 
-        /* Responsive */
-        @media (max-width: 900px) {
-            .stats { grid-template-columns: 1fr; }
-            .desktop-table { display: none; }
-            .mobile-list { display: block; }
-            .btn-draw { width: 100%; justify-content: center; }
-        }
+        /* Confetti */
+        .confetti-piece { position: fixed; pointer-events: none; z-index: 9999; border-radius: 2px; animation: confettiFall linear forwards; }
+        @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
 
-        @media (max-width: 480px) {
-            body { padding: 10px 8px; }
-        }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(14px); }
-            to   { opacity: 1; transform: translateY(0); }
-        }
-
-        .page-head    { animation: fadeUp .4s ease both; }
-        .stats        { animation: fadeUp .4s .05s ease both; }
-        .section-card { animation: fadeUp .4s .1s ease both; }
+        @media (max-width: 960px) { .draw-layout { grid-template-columns: 1fr; } .wheel-container { order: -1; } }
+        @media (max-width: 900px) { .stats { grid-template-columns: 1fr; } .desktop-table { display: none; } .mobile-list { display: block; } }
+        @media (max-width: 480px) { body { padding: 10px 8px; } .wheel-wrap { width: 260px; height: 260px; } canvas#wheel { width: 260px; height: 260px; } }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 <div class="wrap">
 
-    <!-- Header -->
     <div class="page-head">
         <div class="page-head-left">
             <div class="head-icon">🎂</div>
             <div>
                 <h1>Tableau de bord Admin</h1>
-                <p>Concours Gâteau Maxon × Soltana</p>
+                <p>Concours Photo Maxon × Soltana</p>
             </div>
         </div>
         <a href="/" class="back-link">← Retour au formulaire</a>
     </div>
 
-    <!-- Stats -->
     <div class="stats">
         <div class="stat">
             <div class="stat-label">Total participants</div>
@@ -413,44 +143,27 @@
         </div>
     </div>
 
-    <!-- Table -->
     <section class="section-card">
         <h2 class="section-title">🏅 Participants</h2>
-
         <div class="desktop-table">
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>Photo</th>
-                            <th>Nom</th>
-                            <th>Prénom</th>
-                            <th>Instagram</th>
-                            <th>Email</th>
-                            <th>Téléphone</th>
-                            <th>Statut</th>
-                            <th>Analyse IA</th>
-                            <th>Date</th>
+                            <th>Photo</th><th>Nom</th><th>Prénom</th><th>Instagram</th>
+                            <th>Email</th><th>Téléphone</th><th>Statut</th><th>Analyse IA</th><th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for p in participants %}
                         <tr>
-                            <td>
-                                {% if p['photo_path'] %}
-                                <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
-                                {% else %}-{% endif %}
-                            </td>
+                            <td>{% if p['photo_path'] %}<img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="">{% else %}-{% endif %}</td>
                             <td><strong>{{ p['nom'] }}</strong></td>
                             <td>{{ p['prenom'] or '-' }}</td>
                             <td>{{ p['instagram'] or '-' }}</td>
                             <td>{{ p['email'] }}</td>
                             <td>{{ p['telephone'] or '-' }}</td>
-                            <td>
-                                <span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
-                                    {% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}
-                                </span>
-                            </td>
+                            <td><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}</span></td>
                             <td class="analysis-cell">{{ p['analyse_detail'] or '-' }}</td>
                             <td>{{ p['date_inscription'] }}</td>
                         </tr>
@@ -459,79 +172,194 @@
                 </table>
             </div>
         </div>
-
         <div class="mobile-list">
             {% for p in participants %}
             <article class="mobile-card">
                 <div class="mobile-top">
-                    {% if p['photo_path'] %}
-                    <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="">
-                    {% else %}
-                    <div class="thumb"></div>
-                    {% endif %}
-                    <div>
-                        <div class="mobile-name">{{ p['prenom'] or '' }} {{ p['nom'] }}</div>
-                        <div class="mobile-meta">{{ p['date_inscription'] }}</div>
-                    </div>
+                    {% if p['photo_path'] %}<img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="">{% else %}<div class="thumb"></div>{% endif %}
+                    <div><div class="mobile-name">{{ p['prenom'] or '' }} {{ p['nom'] }}</div><div class="mobile-meta">{{ p['date_inscription'] }}</div></div>
                 </div>
                 <div class="mobile-row"><span>Instagram</span><span>{{ p['instagram'] or '-' }}</span></div>
                 <div class="mobile-row"><span>Email</span><span>{{ p['email'] }}</span></div>
                 <div class="mobile-row"><span>Téléphone</span><span>{{ p['telephone'] or '-' }}</span></div>
-                <div class="mobile-row">
-                    <span>Statut</span>
-                    <span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
-                        {% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}
-                    </span>
-                </div>
+                <div class="mobile-row"><span>Statut</span><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}</span></div>
                 <div class="mobile-row"><span>Analyse IA</span><span>{{ p['analyse_detail'] or '-' }}</span></div>
             </article>
             {% endfor %}
         </div>
     </section>
 
-    <!-- Tirage -->
+    <!-- TIRAGE ROUE -->
     <section class="section-card">
         <h2 class="section-title">🎲 Tirage au sort</h2>
-        <div class="draw-inner">
-            <p class="draw-desc">Le tirage se fait uniquement parmi les <strong>{{ valides|length }}</strong> participants valides.</p>
-            <button class="btn-draw" onclick="lancerTirage()">
-                🎰 Lancer le tirage
-            </button>
-            <div id="resultat"></div>
+        <div class="draw-layout">
+            <div class="draw-info">
+                <p class="draw-desc">Le tirage se fait parmi les <strong>{{ valides|length }}</strong> participants valides. Clique sur le bouton pour faire tourner la roue et révéler le gagnant !</p>
+                <button class="btn-draw" id="btnDraw" onclick="lancerTirage()">🎰 Lancer le tirage</button>
+                <div id="draw-result"></div>
+            </div>
+            <div class="wheel-container">
+                <div class="wheel-wrap">
+                    <div class="wheel-pointer"></div>
+                    <canvas id="wheel" width="600" height="600"></canvas>
+                    <div class="wheel-hub">🎂</div>
+                </div>
+                <div class="wheel-status" id="wheelStatus">Prêt pour le tirage ✨</div>
+            </div>
         </div>
     </section>
 
 </div>
 
 <script>
-    function lancerTirage() {
-        const btn     = document.querySelector('.btn-draw');
-        const resultat = document.getElementById('resultat');
+// Participants injectés par Jinja2
+const PARTICIPANTS = [{% for p in valides %}{ name: {{ ((p['prenom'] or '') ~ ' ' ~ p['nom']) | tojson }}, email: {{ p['email'] | tojson }} },{% endfor %}];
 
-        btn.disabled = true;
-        resultat.style.display = 'block';
-        resultat.style.background = '#f3eef8';
-        resultat.style.color = '#5a2d9c';
-        resultat.style.borderColor = 'rgba(154,111,224,0.3)';
-        resultat.textContent = '🎲 Tirage en cours…';
+const canvas = document.getElementById('wheel');
+const ctx    = canvas.getContext('2d');
+const SZ = 600, CX = 300, CY = 300, R = 290;
 
-        fetch('/tirage', { method: 'POST' })
-            .then(r => r.text())
-            .then(data => {
-                resultat.style.background = '#e8f5e9';
-                resultat.style.color = '#1e6c3a';
-                resultat.style.borderColor = '#c8e6c9';
-                resultat.textContent = '🏆 ' + data;
-                btn.disabled = false;
-            })
-            .catch(() => {
-                resultat.style.background = '#fce4ec';
-                resultat.style.color = '#a62922';
-                resultat.style.borderColor = '#f8bbd0';
-                resultat.textContent = '❌ Erreur lors du tirage.';
-                btn.disabled = false;
-            });
+const PALETTE = [
+    '#3d1a6e','#7b4fc9','#c47a2b','#5a2d9c',
+    '#e8a825','#9b6fe0','#4a1580','#d4901a',
+    '#6b35b0','#2a0f52','#8b5fc0','#b86a20',
+];
+
+let rotation = 0, spinning = false;
+
+function drawWheel(rot) {
+    ctx.clearRect(0, 0, SZ, SZ);
+    const items = PARTICIPANTS.length ? PARTICIPANTS : [{ name: 'Aucun participant', email: '' }];
+    const seg = (2 * Math.PI) / items.length;
+
+    items.forEach((p, i) => {
+        const a0 = rot + i * seg, a1 = a0 + seg;
+
+        // Wedge
+        ctx.beginPath();
+        ctx.moveTo(CX, CY);
+        ctx.arc(CX, CY, R, a0, a1);
+        ctx.closePath();
+        ctx.fillStyle = PALETTE[i % PALETTE.length];
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Lighter strip at outer edge
+        const grad = ctx.createRadialGradient(CX, CY, R * 0.6, CX, CY, R);
+        grad.addColorStop(0, 'transparent');
+        grad.addColorStop(1, 'rgba(255,255,255,0.08)');
+        ctx.beginPath();
+        ctx.moveTo(CX, CY);
+        ctx.arc(CX, CY, R, a0, a1);
+        ctx.closePath();
+        ctx.fillStyle = grad;
+        ctx.fill();
+
+        // Text
+        ctx.save();
+        ctx.translate(CX, CY);
+        ctx.rotate(a0 + seg / 2);
+        const maxLen = items.length > 10 ? 10 : 14;
+        const label  = p.name.trim().length > maxLen ? p.name.trim().substring(0, maxLen - 1) + '…' : p.name.trim();
+        const fs = items.length > 14 ? 13 : items.length > 8 ? 16 : 19;
+        ctx.font = `800 ${fs}px Nunito, sans-serif`;
+        ctx.fillStyle = '#fff';
+        ctx.textAlign = 'right';
+        ctx.shadowColor = 'rgba(0,0,0,0.6)';
+        ctx.shadowBlur = 5;
+        ctx.fillText(label, R - 16, fs * 0.38);
+        ctx.restore();
+    });
+
+    // Gold outer ring
+    ctx.beginPath();
+    ctx.arc(CX, CY, R, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#e8a825';
+    ctx.lineWidth = 7;
+    ctx.stroke();
+
+    // Glow ring
+    ctx.beginPath();
+    ctx.arc(CX, CY, R + 2, 0, 2 * Math.PI);
+    ctx.strokeStyle = 'rgba(232,168,37,0.3)';
+    ctx.lineWidth = 12;
+    ctx.stroke();
+}
+
+drawWheel(rotation);
+
+function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
+
+function animateSpin(from, to, duration, done) {
+    const start = performance.now();
+    (function frame(now) {
+        const t = Math.min((now - start) / duration, 1);
+        rotation = from + (to - from) * easeOut(t);
+        drawWheel(rotation);
+        t < 1 ? requestAnimationFrame(frame) : done();
+    })(performance.now());
+}
+
+function launchConfetti() {
+    const colors = ['#e8a825','#7b4fc9','#fff','#c47a2b','#9b6fe0','#3d1a6e','#f0c040'];
+    for (let i = 0; i < 140; i++) {
+        const el = document.createElement('div');
+        el.className = 'confetti-piece';
+        el.style.cssText = `
+            left:${Math.random()*100}vw; top:-20px;
+            width:${6+Math.random()*8}px; height:${6+Math.random()*8}px;
+            background:${colors[Math.floor(Math.random()*colors.length)]};
+            border-radius:${Math.random()>.5?'50%':'3px'};
+            animation-duration:${2+Math.random()*2.5}s;
+            animation-delay:${Math.random()*.8}s;
+        `;
+        document.body.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
     }
+}
+
+function lancerTirage() {
+    if (spinning || !PARTICIPANTS.length) {
+        if (!PARTICIPANTS.length) document.getElementById('wheelStatus').textContent = '⚠️ Aucun participant valide';
+        return;
+    }
+    spinning = true;
+    const btn    = document.getElementById('btnDraw');
+    const result = document.getElementById('draw-result');
+    const status = document.getElementById('wheelStatus');
+    btn.disabled = true;
+    result.className = '';
+    result.style.display = 'none';
+    status.textContent  = '🎲 La roue tourne…';
+
+    fetch('/tirage', { method: 'POST' })
+        .then(r => r.text())
+        .then(txt => {
+            const spins  = (6 + Math.floor(Math.random() * 5)) * 2 * Math.PI;
+            const offset = Math.random() * 2 * Math.PI;
+            const target = rotation - spins - offset;
+
+            animateSpin(rotation, target, 5000, () => {
+                spinning = false;
+                btn.disabled = false;
+                status.textContent = '🎉 Gagnant révélé !';
+                const clean = txt.replace('Gagnant : ', '');
+                result.innerHTML = `
+                    <div class="winner-label">🏆 Gagnant du tirage au sort</div>
+                    <div class="winner-name">${clean}</div>
+                `;
+                result.className = 'show-win';
+                launchConfetti();
+            });
+        })
+        .catch(() => {
+            spinning = false;
+            btn.disabled = false;
+            status.textContent = '❌ Erreur serveur';
+        });
+}
 </script>
 </body>
 </html>
