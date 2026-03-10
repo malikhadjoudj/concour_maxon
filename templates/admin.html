@@ -3,149 +3,333 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Concours Palmary</title>
+    <title>Admin — Concours Gâteau Maxon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --palmary-red: #dc2b23;
-            --palmary-red-dark: #b51f19;
-            --bg: #f5efe9;
-            --card: #fffdf9;
-            --line: #e5d8cc;
-            --ink: #2f2a26;
-            --muted: #6f655d;
-            --ok: #1e6c3a;
-            --ko: #a62922;
+            --maxon-purple:       #3d1a6e;
+            --maxon-purple-mid:   #5a2d9c;
+            --maxon-purple-light: #7b4fc9;
+            --maxon-violet-glow:  #9b6fe0;
+            --soltana-choc:       #5a2d0c;
+            --soltana-caramel:    #c47a2b;
+            --soltana-gold:       #e8a825;
+            --soltana-cream:      #fdf3e1;
+            --white:              #fffef9;
+            --ink:                #1a0d2e;
+            --muted:              #7a6a9a;
+            --border:             rgba(154,111,224,0.25);
+            --ok:                 #1e6c3a;
+            --ko:                 #a62922;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
-            padding: 26px 18px;
-            font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
-            background: linear-gradient(180deg, #f9f3ed 0%, var(--bg) 100%);
+            min-height: 100vh;
+            font-family: 'Nunito', sans-serif;
             color: var(--ink);
+            background: var(--maxon-purple);
+            background-image:
+                radial-gradient(ellipse 900px 600px at 85% -5%, #7b2ff7 0%, transparent 55%),
+                radial-gradient(ellipse 500px 400px at -5% 95%, #c47a2b33 0%, transparent 55%);
+            padding: clamp(16px, 2.5vw, 32px) clamp(12px, 2vw, 20px);
+        }
+
+        body::before {
+            content: "🎂 🍫 🎂 🍫 🎂 🍫";
+            position: fixed;
+            inset: 0;
+            font-size: 28px;
+            word-spacing: 50px;
+            line-height: 90px;
+            letter-spacing: 40px;
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
         .wrap {
-            max-width: 1200px;
+            position: relative;
+            z-index: 1;
+            max-width: 1300px;
             margin: 0 auto;
         }
 
-        .head {
-            margin-bottom: 18px;
+        /* ── Header ── */
+        .page-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
         }
 
-        .head h1 {
-            margin: 0;
-            font-size: 30px;
+        .page-head-left { display: flex; align-items: center; gap: 14px; }
+
+        .head-icon {
+            width: 52px; height: 52px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 6px 18px rgba(232,168,37,0.4);
+            flex-shrink: 0;
         }
 
-        .head p {
-            margin: 8px 0 0;
-            color: var(--muted);
+        .page-head h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(20px, 3vw, 28px);
+            font-weight: 900;
+            color: #fff;
         }
 
+        .page-head p {
+            font-size: 13px;
+            color: rgba(220,205,255,0.65);
+            margin-top: 2px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 9px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(154,111,224,0.35);
+            background: rgba(255,255,255,0.06);
+            color: rgba(220,205,255,0.8);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: background .2s, color .2s;
+        }
+
+        .back-link:hover {
+            background: rgba(255,255,255,0.12);
+            color: #fff;
+        }
+
+        /* ── Stats ── */
         .stats {
             display: grid;
-            grid-template-columns: repeat(2, minmax(180px, 1fr));
-            gap: 12px;
-            margin-bottom: 18px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         .stat {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 14px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+            border: 1px solid rgba(154,111,224,0.3);
+            border-radius: 18px;
+            padding: 18px 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(10,0,30,0.25);
         }
 
-        .stat span {
-            display: block;
-            color: var(--muted);
-            font-size: 13px;
+        .stat::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--maxon-purple-light), var(--soltana-gold));
         }
 
-        .stat strong {
-            display: block;
-            margin-top: 6px;
-            font-size: 28px;
+        .stat .stat-label {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: rgba(220,205,255,0.6);
         }
 
-        .table-card,
-        .draw-card {
-            background: var(--card);
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 8px 20px rgba(62, 35, 28, 0.06);
+        .stat .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 44px;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            margin-top: 4px;
         }
 
-        .table-wrap {
-            overflow-x: auto;
+        .stat .stat-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 36px;
+            opacity: 0.18;
         }
+
+        /* ── Cards ── */
+        .section-card {
+            background: var(--white);
+            border: 1px solid rgba(154,111,224,0.15);
+            border-radius: 20px;
+            padding: 22px 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 16px 44px rgba(10,0,30,0.18);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--maxon-purple), var(--maxon-violet-glow), var(--soltana-gold));
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--maxon-purple);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ── Table ── */
+        .table-wrap { overflow-x: auto; }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 980px;
-        }
-
-        .desktop-table {
-            display: block;
-        }
-
-        .mobile-list {
-            display: none;
-        }
-
-        th,
-        td {
-            border-bottom: 1px solid var(--line);
-            padding: 10px 8px;
-            text-align: left;
-            vertical-align: middle;
-            font-size: 14px;
+            min-width: 1000px;
         }
 
         th {
-            color: var(--muted);
-            font-size: 12px;
+            background: rgba(61,26,110,0.06);
+            color: var(--maxon-purple);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.7px;
             text-transform: uppercase;
-            letter-spacing: .4px;
+            padding: 10px 10px;
+            text-align: left;
+            border-bottom: 1.5px solid rgba(154,111,224,0.15);
         }
 
-        .status.valid {
-            color: var(--ok);
-            font-weight: 700;
+        td {
+            padding: 10px 10px;
+            border-bottom: 1px solid rgba(154,111,224,0.1);
+            font-size: 13.5px;
+            vertical-align: middle;
+            color: var(--ink);
         }
 
-        .status.invalid {
-            color: var(--ko);
-            font-weight: 700;
-        }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: rgba(154,111,224,0.04); }
 
         .thumb {
             width: 56px;
             height: 56px;
             object-fit: cover;
-            border-radius: 10px;
-            border: 1px solid var(--line);
-            background: #fff;
+            border-radius: 12px;
+            border: 2px solid rgba(154,111,224,0.2);
+            background: #f3eef8;
         }
 
-        .analysis {
-            min-width: 320px;
-            color: #5f554d;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 999px;
             font-size: 12px;
-            line-height: 1.4;
+            font-weight: 800;
+            letter-spacing: 0.4px;
         }
+
+        .status-badge.valid {
+            background: #e8f5e9;
+            color: var(--ok);
+            border: 1px solid #c8e6c9;
+        }
+
+        .status-badge.valid::before { content: "✓"; }
+
+        .status-badge.invalid {
+            background: #fce4ec;
+            color: var(--ko);
+            border: 1px solid #f8bbd0;
+        }
+
+        .status-badge.invalid::before { content: "✗"; }
+
+        .analysis-cell {
+            font-size: 12px;
+            color: #6b5d7a;
+            line-height: 1.45;
+            max-width: 280px;
+        }
+
+        /* ── Draw section ── */
+        .draw-inner {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .draw-desc {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .btn-draw {
+            border: 0;
+            border-radius: 14px;
+            padding: 16px 28px;
+            font-size: 16px;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930);
+            box-shadow: 0 8px 24px rgba(61,26,110,0.45);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform .12s, box-shadow .12s;
+            align-self: flex-start;
+        }
+
+        .btn-draw:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(61,26,110,0.55);
+        }
+
+        .btn-draw:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        #resultat {
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--ok);
+            padding: 14px 18px;
+            background: #e8f5e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 12px;
+            display: none;
+        }
+
+        /* ── Mobile cards ── */
+        .desktop-table { display: block; }
+        .mobile-list   { display: none; }
 
         .mobile-card {
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 12px;
+            border: 1px solid rgba(154,111,224,0.15);
+            border-radius: 14px;
+            padding: 14px;
             margin-bottom: 10px;
             background: #fff;
         }
@@ -153,252 +337,201 @@
         .mobile-top {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
+            gap: 12px;
+            margin-bottom: 10px;
         }
 
-        .mobile-top .thumb {
-            width: 52px;
-            height: 52px;
-            flex: 0 0 auto;
-        }
-
-        .mobile-name {
-            font-size: 15px;
-            font-weight: 700;
-        }
-
-        .mobile-meta {
-            font-size: 12px;
-            color: var(--muted);
-        }
+        .mobile-name { font-size: 15px; font-weight: 800; color: var(--maxon-purple); }
+        .mobile-meta { font-size: 12px; color: var(--muted); }
 
         .mobile-row {
             display: grid;
-            grid-template-columns: 105px 1fr;
-            gap: 8px;
-            align-items: start;
+            grid-template-columns: 100px 1fr;
+            gap: 6px;
             font-size: 13px;
             margin-top: 6px;
+            align-items: start;
         }
 
         .mobile-row span:first-child {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
             color: var(--muted);
-            font-weight: 600;
+            padding-top: 1px;
         }
 
-        .btn-draw {
-            border: 0;
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: #fff;
-            font-weight: 700;
-            cursor: pointer;
-            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
-        }
-
-        .btn-draw:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
-
-        #resultat {
-            margin-top: 12px;
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--ok);
-        }
-
-        .back-link {
-            color: var(--muted);
-            text-decoration: none;
-            font-size: 14px;
-        }
-
-        .back-link:hover {
-            color: var(--palmary-red-dark);
-        }
-
+        /* Responsive */
         @media (max-width: 900px) {
-            .stats {
-                grid-template-columns: 1fr;
-            }
-
-            .head h1 {
-                font-size: 24px;
-            }
-
-            .table-card,
-            .draw-card {
-                padding: 12px;
-            }
-
-            .desktop-table {
-                display: none;
-            }
-
-            .mobile-list {
-                display: block;
-            }
-
-            .btn-draw {
-                width: 100%;
-                min-height: 48px;
-                font-size: 16px;
-            }
-
-            #resultat {
-                font-size: 16px;
-                line-height: 1.35;
-            }
+            .stats { grid-template-columns: 1fr; }
+            .desktop-table { display: none; }
+            .mobile-list { display: block; }
+            .btn-draw { width: 100%; justify-content: center; }
         }
 
-        @media (max-width: 420px) {
-            body {
-                padding: 12px 10px;
-            }
-
-            .mobile-row {
-                grid-template-columns: 92px 1fr;
-            }
+        @media (max-width: 480px) {
+            body { padding: 10px 8px; }
         }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .page-head    { animation: fadeUp .4s ease both; }
+        .stats        { animation: fadeUp .4s .05s ease both; }
+        .section-card { animation: fadeUp .4s .1s ease both; }
     </style>
 </head>
 <body>
-    <div class="wrap">
-        <div class="head">
-            <h1>Tableau de bord admin</h1>
-            <p>Gestion des participations du concours Palmary.</p>
-        </div>
+<div class="wrap">
 
-        <div class="stats">
-            <div class="stat">
-                <span>Total participants</span>
-                <strong>{{ participants|length }}</strong>
-            </div>
-            <div class="stat">
-                <span>Participants valides</span>
-                <strong>{{ valides|length }}</strong>
+    <!-- Header -->
+    <div class="page-head">
+        <div class="page-head-left">
+            <div class="head-icon">🎂</div>
+            <div>
+                <h1>Tableau de bord Admin</h1>
+                <p>Concours Gâteau Maxon × Soltana</p>
             </div>
         </div>
-
-        <section class="table-card">
-            <h2>Participants</h2>
-            <div class="desktop-table">
-                <div class="table-wrap">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Photo</th>
-                                <th>Nom</th>
-                                <th>Prenom</th>
-                                <th>Instagram</th>
-                                <th>Email</th>
-                                <th>Telephone</th>
-                                <th>Statut</th>
-                                <th>Analyse IA</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for p in participants %}
-                            <tr>
-                                <td>
-                                    {% if p['photo_path'] %}
-                                    <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
-                                    {% else %}
-                                    -
-                                    {% endif %}
-                                </td>
-                                <td>{{ p['nom'] }}</td>
-                                <td>{{ p['prenom'] or '-' }}</td>
-                                <td>{{ p['instagram'] or '-' }}</td>
-                                <td>{{ p['email'] }}</td>
-                                <td>{{ p['telephone'] or '-' }}</td>
-                                <td class="status {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
-                                    {% if p['est_valide'] %}Valide{% else %}Rejete{% endif %}
-                                </td>
-                                <td class="analysis">{{ p['analyse_detail'] or '-' }}</td>
-                                <td>{{ p['date_inscription'] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="mobile-list">
-                {% for p in participants %}
-                <article class="mobile-card">
-                    <div class="mobile-top">
-                        {% if p['photo_path'] %}
-                        <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
-                        {% else %}
-                        <div class="thumb"></div>
-                        {% endif %}
-
-                        <div>
-                            <div class="mobile-name">{{ p['prenom'] or '' }} {{ p['nom'] }}</div>
-                            <div class="mobile-meta">{{ p['date_inscription'] }}</div>
-                        </div>
-                    </div>
-
-                    <div class="mobile-row">
-                        <span>Instagram</span>
-                        <span>{{ p['instagram'] or '-' }}</span>
-                    </div>
-                    <div class="mobile-row">
-                        <span>Email</span>
-                        <span>{{ p['email'] }}</span>
-                    </div>
-                    <div class="mobile-row">
-                        <span>Telephone</span>
-                        <span>{{ p['telephone'] or '-' }}</span>
-                    </div>
-                    <div class="mobile-row">
-                        <span>Statut</span>
-                        <span class="status {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
-                            {% if p['est_valide'] %}Valide{% else %}Rejete{% endif %}
-                        </span>
-                    </div>
-                    <div class="mobile-row">
-                        <span>Analyse IA</span>
-                        <span>{{ p['analyse_detail'] or '-' }}</span>
-                    </div>
-                </article>
-                {% endfor %}
-            </div>
-        </section>
-
-        <section class="draw-card">
-            <h2>Tirage au sort</h2>
-            <p>Le tirage se fait uniquement parmi les participants valides.</p>
-            <button class="btn-draw" onclick="lancerTirage()">Lancer le tirage</button>
-            <div id="resultat"></div>
-        </section>
-
-        <a href="/" class="back-link">Retour au formulaire</a>
+        <a href="/" class="back-link">← Retour au formulaire</a>
     </div>
 
-    <script>
-        function lancerTirage() {
-            const btn = document.querySelector('.btn-draw');
-            const resultat = document.getElementById('resultat');
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-label">Total participants</div>
+            <div class="stat-value">{{ participants|length }}</div>
+            <div class="stat-icon">👥</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">Participants valides</div>
+            <div class="stat-value">{{ valides|length }}</div>
+            <div class="stat-icon">✅</div>
+        </div>
+    </div>
 
-            btn.disabled = true;
-            resultat.textContent = 'Tirage en cours...';
+    <!-- Table -->
+    <section class="section-card">
+        <h2 class="section-title">🏅 Participants</h2>
 
-            fetch('/tirage', { method: 'POST' })
-                .then(response => response.text())
-                .then(data => {
-                    resultat.textContent = data;
-                    btn.disabled = false;
-                })
-                .catch(() => {
-                    resultat.textContent = 'Erreur lors du tirage.';
-                    btn.disabled = false;
-                });
-        }
-    </script>
+        <div class="desktop-table">
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Photo</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Instagram</th>
+                            <th>Email</th>
+                            <th>Téléphone</th>
+                            <th>Statut</th>
+                            <th>Analyse IA</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for p in participants %}
+                        <tr>
+                            <td>
+                                {% if p['photo_path'] %}
+                                <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="Photo participant">
+                                {% else %}-{% endif %}
+                            </td>
+                            <td><strong>{{ p['nom'] }}</strong></td>
+                            <td>{{ p['prenom'] or '-' }}</td>
+                            <td>{{ p['instagram'] or '-' }}</td>
+                            <td>{{ p['email'] }}</td>
+                            <td>{{ p['telephone'] or '-' }}</td>
+                            <td>
+                                <span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
+                                    {% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}
+                                </span>
+                            </td>
+                            <td class="analysis-cell">{{ p['analyse_detail'] or '-' }}</td>
+                            <td>{{ p['date_inscription'] }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mobile-list">
+            {% for p in participants %}
+            <article class="mobile-card">
+                <div class="mobile-top">
+                    {% if p['photo_path'] %}
+                    <img class="thumb" src="/uploads/{{ p['photo_path'] }}" alt="">
+                    {% else %}
+                    <div class="thumb"></div>
+                    {% endif %}
+                    <div>
+                        <div class="mobile-name">{{ p['prenom'] or '' }} {{ p['nom'] }}</div>
+                        <div class="mobile-meta">{{ p['date_inscription'] }}</div>
+                    </div>
+                </div>
+                <div class="mobile-row"><span>Instagram</span><span>{{ p['instagram'] or '-' }}</span></div>
+                <div class="mobile-row"><span>Email</span><span>{{ p['email'] }}</span></div>
+                <div class="mobile-row"><span>Téléphone</span><span>{{ p['telephone'] or '-' }}</span></div>
+                <div class="mobile-row">
+                    <span>Statut</span>
+                    <span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">
+                        {% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}
+                    </span>
+                </div>
+                <div class="mobile-row"><span>Analyse IA</span><span>{{ p['analyse_detail'] or '-' }}</span></div>
+            </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <!-- Tirage -->
+    <section class="section-card">
+        <h2 class="section-title">🎲 Tirage au sort</h2>
+        <div class="draw-inner">
+            <p class="draw-desc">Le tirage se fait uniquement parmi les <strong>{{ valides|length }}</strong> participants valides.</p>
+            <button class="btn-draw" onclick="lancerTirage()">
+                🎰 Lancer le tirage
+            </button>
+            <div id="resultat"></div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    function lancerTirage() {
+        const btn     = document.querySelector('.btn-draw');
+        const resultat = document.getElementById('resultat');
+
+        btn.disabled = true;
+        resultat.style.display = 'block';
+        resultat.style.background = '#f3eef8';
+        resultat.style.color = '#5a2d9c';
+        resultat.style.borderColor = 'rgba(154,111,224,0.3)';
+        resultat.textContent = '🎲 Tirage en cours…';
+
+        fetch('/tirage', { method: 'POST' })
+            .then(r => r.text())
+            .then(data => {
+                resultat.style.background = '#e8f5e9';
+                resultat.style.color = '#1e6c3a';
+                resultat.style.borderColor = '#c8e6c9';
+                resultat.textContent = '🏆 ' + data;
+                btn.disabled = false;
+            })
+            .catch(() => {
+                resultat.style.background = '#fce4ec';
+                resultat.style.color = '#a62922';
+                resultat.style.borderColor = '#f8bbd0';
+                resultat.textContent = '❌ Erreur lors du tirage.';
+                btn.disabled = false;
+            });
+    }
+</script>
 </body>
 </html>

@@ -3,189 +3,600 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Concours Palmary</title>
+    <title>Concours Gâteau Maxon × Soltana</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --palmary-red: #dc2b23;
-            --palmary-red-dark: #b51f19;
-            --palmary-sand: #f6f1eb;
-            --palmary-cream: #fffdf9;
-            --ink: #2e2926;
-            --muted: #746b63;
-            --ok-bg: #edf7ef;
-            --ok-tx: #1f6d3b;
-            --err-bg: #fdeeee;
-            --err-tx: #92221d;
-            --radius: 16px;
+            /* Maxon packaging - deep royal purple */
+            --maxon-purple:       #3d1a6e;
+            --maxon-purple-mid:   #5a2d9c;
+            --maxon-purple-light: #7b4fc9;
+            --maxon-violet-glow:  #9b6fe0;
+
+            /* Soltana chocolate - warm browns & gold */
+            --soltana-choc:       #5a2d0c;
+            --soltana-caramel:    #c47a2b;
+            --soltana-gold:       #e8a825;
+            --soltana-cream:      #fdf3e1;
+
+            /* Neutral */
+            --white:              #fffef9;
+            --ink:                #1a0d2e;
+            --muted:              #7a6a9a;
+            --border:             rgba(154, 111, 224, 0.25);
+
+            /* Status */
+            --ok-bg:   #e8f5e9;
+            --ok-tx:   #1b5e20;
+            --err-bg:  #fce4ec;
+            --err-tx:  #880e4f;
         }
 
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            margin: 0;
             min-height: 100vh;
-            font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
-            color: var(--ink);
-            background: radial-gradient(circle at 10% 10%, #fff6f2 0%, var(--palmary-sand) 40%, #f1ebe4 100%);
-            padding: clamp(14px, 2.8vw, 28px) clamp(12px, 2.2vw, 18px);
+            font-family: 'Nunito', sans-serif;
+            background: var(--maxon-purple);
+            background-image:
+                radial-gradient(ellipse 900px 700px at 80% -10%, #7b2ff7 0%, transparent 55%),
+                radial-gradient(ellipse 600px 500px at -5% 100%, #c47a2b44 0%, transparent 55%),
+                radial-gradient(ellipse 400px 400px at 50% 50%, #4a1f8022 0%, transparent 70%);
+            padding: clamp(16px, 3vw, 36px) clamp(12px, 2vw, 20px);
+            overflow-x: hidden;
+        }
+
+        /* Floating cake emojis background decoration */
+        body::before {
+            content: "🎂 🍰 🎂 🍫 🎂 🍰 🎂 🍫 🎂 🍰 🎂 🍫";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            font-size: 28px;
+            word-spacing: 40px;
+            line-height: 90px;
+            letter-spacing: 30px;
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
         }
 
         .shell {
-            max-width: 980px;
+            position: relative;
+            z-index: 1;
+            max-width: 1040px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1.2fr;
-            gap: 22px;
+            grid-template-columns: 1fr 1.15fr;
+            gap: 20px;
+            align-items: start;
         }
 
-        .hero, .card {
-            background: var(--palmary-cream);
-            border: 1px solid #eadfd4;
-            border-radius: var(--radius);
-            box-shadow: 0 10px 28px rgba(72, 42, 34, 0.08);
-        }
-
+        /* ─── HERO PANEL ─── */
         .hero {
-            padding: 28px;
+            background: linear-gradient(160deg, #4a1f88 0%, #2a0f52 60%, #1a0930 100%);
+            border: 1px solid rgba(154, 111, 224, 0.3);
+            border-radius: 24px;
+            padding: 32px 28px;
+            position: relative;
+            overflow: hidden;
+            box-shadow:
+                0 24px 60px rgba(10,0,30,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+
+        .hero::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle 280px at 90% 20%, rgba(154,111,224,0.18) 0%, transparent 65%),
+                radial-gradient(circle 200px at 10% 85%, rgba(196,122,43,0.14) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        /* Gold ribbon at top */
+        .hero::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 28px; right: 28px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--soltana-gold), var(--maxon-violet-glow), var(--soltana-gold), transparent);
+            border-radius: 0 0 4px 4px;
+        }
+
+        .contest-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--maxon-purple);
+            background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel));
+            box-shadow: 0 4px 12px rgba(232,168,37,0.4);
+            margin-bottom: 20px;
+        }
+
+        .contest-badge::before { content: "🏆"; font-size: 14px; }
+
+        .hero h1 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: clamp(28px, 4.5vw, 40px);
+            font-weight: 900;
+            line-height: 1.08;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--soltana-gold), #fff8c0, var(--soltana-caramel));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: rgba(220,205,255,0.78);
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        /* Product showcase */
+        .products-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .product-chip {
+            flex: 1;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(154,111,224,0.3);
+            border-radius: 14px;
+            padding: 12px 10px;
+            text-align: center;
+        }
+
+        .product-chip .icon { font-size: 26px; display: block; margin-bottom: 6px; }
+        .product-chip .label {
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            color: rgba(220,205,255,0.7);
+        }
+        .product-chip .name {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-top: 2px;
+        }
+
+        /* Steps */
+        .steps { display: flex; flex-direction: column; gap: 10px; }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel));
+            color: var(--maxon-purple);
+            font-size: 13px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(232,168,37,0.35);
+        }
+
+        .step-text {
+            font-size: 13.5px;
+            color: rgba(220,205,255,0.78);
+            line-height: 1.5;
+            padding-top: 4px;
+        }
+
+        .step-text strong { color: #fff; font-weight: 700; }
+
+        /* Prize banner */
+        .prize-banner {
+            margin-top: 22px;
+            padding: 14px 16px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(232,168,37,0.15), rgba(154,111,224,0.15));
+            border: 1px solid rgba(232,168,37,0.35);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .prize-icon { font-size: 28px; flex-shrink: 0; }
+
+        .prize-text {
+            font-size: 13px;
+            color: rgba(255,240,200,0.85);
+            line-height: 1.45;
+        }
+
+        .prize-text strong {
+            display: block;
+            font-size: 15px;
+            color: var(--soltana-gold);
+            font-weight: 800;
+        }
+
+        /* ─── FORM CARD ─── */
+        .card {
+            background: linear-gradient(160deg, #fffef9 0%, #fdf3e1 100%);
+            border: 1px solid rgba(154,111,224,0.2);
+            border-radius: 24px;
+            padding: 30px 28px;
+            box-shadow:
+                0 24px 60px rgba(10,0,30,0.35),
+                inset 0 1px 0 rgba(255,255,255,0.9);
             position: relative;
             overflow: hidden;
         }
 
-        .hero::after {
+        .card::before {
             content: "";
             position: absolute;
-            width: 240px;
-            height: 240px;
-            right: -80px;
-            top: -70px;
-            background: radial-gradient(circle, rgba(220, 43, 35, 0.13), transparent 65%);
-            pointer-events: none;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--maxon-purple), var(--maxon-violet-glow), var(--soltana-gold), var(--maxon-violet-glow), var(--maxon-purple));
         }
 
-        .brand-pill {
-            display: inline-block;
-            padding: 7px 12px;
-            border-radius: 999px;
-            font-size: 13px;
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, var(--maxon-purple), var(--maxon-purple-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 6px 16px rgba(61,26,110,0.3);
+            flex-shrink: 0;
+        }
+
+        .card-header h2 {
+            font-family: 'Playfair Display', Georgia, serif;
+            font-size: 22px;
             font-weight: 700;
-            letter-spacing: .4px;
-            color: #fff;
-            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
+            color: var(--maxon-purple);
+            line-height: 1.2;
         }
 
-        h1 {
-            margin: 14px 0 10px;
-            font-size: clamp(26px, 5vw, 34px);
-            line-height: 1.12;
-        }
-
-        .hero p {
-            margin: 0;
+        .card-header p {
+            font-size: 12px;
             color: var(--muted);
-            line-height: 1.6;
+            margin-top: 2px;
         }
 
-        .card { padding: 26px; }
-
-        h2 { margin: 0 0 16px; font-size: clamp(20px, 3.6vw, 22px); }
-
+        /* Alert */
         .alert {
             border-radius: 12px;
             padding: 12px 14px;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
             border: 1px solid transparent;
-            font-size: 14px;
         }
 
-        .alert.success { background: var(--ok-bg); color: var(--ok-tx); border-color: #cde9d6; }
-        .alert.error   { background: var(--err-bg); color: var(--err-tx); border-color: #f4caca; }
+        .alert::before { font-size: 16px; flex-shrink: 0; margin-top: -1px; }
 
-        .grid {
+        .alert.success {
+            background: var(--ok-bg);
+            color: var(--ok-tx);
+            border-color: #c8e6c9;
+        }
+
+        .alert.success::before { content: "✅"; }
+
+        .alert.error {
+            background: var(--err-bg);
+            color: var(--err-tx);
+            border-color: #f8bbd0;
+        }
+
+        .alert.error::before { content: "❌"; }
+
+        /* Fields */
+        .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
         }
 
-        .field { margin-bottom: 12px; }
+        .field {
+            margin-bottom: 14px;
+        }
 
         label {
             display: block;
-            font-size: 13px;
-            font-weight: 700;
-            margin-bottom: 6px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: var(--maxon-purple);
+            margin-bottom: 7px;
+        }
+
+        .input-wrap { position: relative; }
+
+        .input-icon {
+            position: absolute;
+            left: 13px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            pointer-events: none;
+            z-index: 1;
         }
 
         input {
             width: 100%;
-            border: 1px solid #dacfc4;
-            background: #fff;
-            border-radius: 10px;
+            border: 1.5px solid rgba(154,111,224,0.3);
+            background: rgba(255,255,255,0.95);
+            border-radius: 12px;
             min-height: 48px;
-            padding: 11px 12px;
-            font-size: 16px;
+            padding: 11px 12px 11px 40px;
+            font-size: 15px;
+            font-family: 'Nunito', sans-serif;
             color: var(--ink);
             outline: none;
-            transition: border-color .2s, box-shadow .2s;
+            transition: border-color .2s, box-shadow .2s, background .2s;
         }
 
         input:focus {
-            border-color: var(--palmary-red);
-            box-shadow: 0 0 0 3px rgba(220, 43, 35, 0.12);
+            border-color: var(--maxon-purple-light);
+            background: #fff;
+            box-shadow:
+                0 0 0 3.5px rgba(122,79,201,0.15),
+                0 2px 8px rgba(61,26,110,0.08);
         }
 
-        .file-help {
-            margin-top: 6px;
-            font-size: 12px;
+        input::placeholder { color: #b0a0c8; }
+
+        /* File input */
+        .file-field {
+            margin-bottom: 18px;
+        }
+
+        .file-zone {
+            border: 2px dashed rgba(154,111,224,0.4);
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            background: rgba(154,111,224,0.04);
+            cursor: pointer;
+            transition: border-color .2s, background .2s;
+            position: relative;
+        }
+
+        .file-zone:hover {
+            border-color: var(--maxon-purple-light);
+            background: rgba(154,111,224,0.08);
+        }
+
+        .file-zone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+            min-height: unset;
+            padding: 0;
+            border: none;
+            box-shadow: none;
+        }
+
+        .file-zone-icon { font-size: 36px; margin-bottom: 8px; }
+
+        .file-zone-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--maxon-purple);
+        }
+
+        .file-zone-sub {
+            font-size: 11.5px;
             color: var(--muted);
+            margin-top: 4px;
+            line-height: 1.5;
         }
 
-        button {
-            margin-top: 8px;
+        /* Submit button */
+        .btn-submit {
             width: 100%;
             border: 0;
-            border-radius: 12px;
-            min-height: 50px;
-            padding: 13px 16px;
+            border-radius: 14px;
+            min-height: 54px;
+            padding: 14px 20px;
             font-size: 16px;
-            font-weight: 700;
+            font-weight: 800;
+            font-family: 'Nunito', sans-serif;
+            letter-spacing: 0.4px;
             cursor: pointer;
             color: #fff;
-            background: linear-gradient(135deg, var(--palmary-red), var(--palmary-red-dark));
-            transition: transform .12s, filter .12s;
+            background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930);
+            box-shadow:
+                0 8px 24px rgba(61,26,110,0.45),
+                inset 0 1px 0 rgba(255,255,255,0.15);
+            transition: transform .12s, filter .12s, box-shadow .12s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 6px;
+            position: relative;
+            overflow: hidden;
         }
 
-        button:hover {
-            filter: brightness(1.04);
-            transform: translateY(-1px);
+        .btn-submit::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(232,168,37,0.25), transparent 50%);
+            opacity: 0;
+            transition: opacity .2s;
         }
 
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 32px rgba(61,26,110,0.55);
+        }
+
+        .btn-submit:hover::before { opacity: 1; }
+
+        .btn-submit:active { transform: translateY(0); }
+
+        .btn-submit-icon { font-size: 20px; }
+
+        /* Admin link */
+        .admin-link {
+            margin-top: 14px;
+            text-align: right;
+        }
+
+        .admin-link a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            opacity: 0.7;
+            transition: opacity .2s, color .2s;
+        }
+
+        .admin-link a:hover {
+            opacity: 1;
+            color: var(--maxon-purple);
+        }
+
+        /* Divider */
+        .divider {
+            border: none;
+            border-top: 1px solid rgba(154,111,224,0.15);
+            margin: 16px 0;
+        }
+
+        /* Responsive */
         @media (max-width: 860px) {
-            .shell { grid-template-columns: 1fr; gap: 14px; }
+            .shell {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+
             .hero { order: 2; }
-            .grid { grid-template-columns: 1fr; }
-            .card, .hero { padding: 18px; border-radius: 14px; }
-            .alert { font-size: 13px; }
+            .card { order: 1; }
+
+            .grid-2 { grid-template-columns: 1fr; gap: 0; }
+
+            .card, .hero { padding: 20px 18px; }
         }
 
         @media (max-width: 420px) {
-            body { padding: 10px; }
-            .file-help { font-size: 11px; line-height: 1.35; }
+            body { padding: 10px 8px; }
+            .products-row { flex-direction: column; }
         }
+
+        /* Animate in */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero  { animation: fadeUp .55s ease both; }
+        .card  { animation: fadeUp .55s .1s ease both; }
     </style>
 </head>
 <body>
     <main class="shell">
+
+        <!-- ── HERO ── -->
         <section class="hero">
-            <span class="brand-pill">THEME PALMARY</span>
-            <h1>Concours photo Palmary</h1>
-            <p>
-                Partagez une photo de votre gateau avec les produits visibles.
-                Remplissez vos informations puis envoyez votre participation.
+            <div class="contest-badge">Concours officiel 2025</div>
+
+            <h1>Concours Photo<br><em>Gâteau Maxon</em></h1>
+
+            <p class="hero-sub">
+                Prépare ton gâteau avec les produits Maxon &amp; Soltana,
+                prends une belle photo et tente de gagner !
             </p>
+
+            <div class="products-row">
+                <div class="product-chip">
+                    <span class="icon">🎂</span>
+                    <span class="label">Requis</span>
+                    <span class="name">Paquet Maxon</span>
+                </div>
+                <div class="product-chip">
+                    <span class="icon">🍫</span>
+                    <span class="label">Requis</span>
+                    <span class="name">Chocolat Soltana</span>
+                </div>
+                <div class="product-chip">
+                    <span class="icon">🍰</span>
+                    <span class="label">Requis</span>
+                    <span class="name">Ton gâteau</span>
+                </div>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <div class="step-text"><strong>Prépare ton gâteau</strong> avec le paquet Maxon et le chocolat Soltana bien visibles.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <div class="step-text"><strong>Prends une photo</strong> nette de l'assiette avec tous les produits.</div>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <div class="step-text"><strong>Remplis le formulaire</strong> et soumets ta participation. L'IA valide en temps réel !</div>
+                </div>
+            </div>
+
+            <div class="prize-banner">
+                <div class="prize-icon">🎁</div>
+                <div class="prize-text">
+                    <strong>Tirage au sort parmi les valides</strong>
+                    Les meilleures participations seront sélectionnées et le gagnant annoncé prochainement.
+                </div>
+            </div>
         </section>
 
+        <!-- ── FORM CARD ── -->
         <section class="card">
-            <h2>Formulaire de participation</h2>
+            <div class="card-header">
+                <div class="card-icon">🎂</div>
+                <div>
+                    <h2>Formulaire de participation</h2>
+                    <p>Tous les champs sont obligatoires</p>
+                </div>
+            </div>
 
             {% if message %}
             <div class="alert {{ 'success' if status == 'success' else 'error' }}">
@@ -194,45 +605,90 @@
             {% endif %}
 
             <form method="POST" enctype="multipart/form-data">
-                <div class="grid">
+
+                <div class="grid-2">
                     <div class="field">
                         <label for="nom">Nom</label>
-                        <input id="nom" type="text" name="nom" required placeholder="Ex: Dupont" autocomplete="family-name">
+                        <div class="input-wrap">
+                            <span class="input-icon">👤</span>
+                            <input id="nom" type="text" name="nom" required placeholder="Ex: Dupont" autocomplete="family-name">
+                        </div>
                     </div>
                     <div class="field">
-                        <label for="prenom">Prenom</label>
-                        <input id="prenom" type="text" name="prenom" required placeholder="Ex: Sara" autocomplete="given-name">
+                        <label for="prenom">Prénom</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">✨</span>
+                            <input id="prenom" type="text" name="prenom" required placeholder="Ex: Sara" autocomplete="given-name">
+                        </div>
                     </div>
                 </div>
 
                 <div class="field">
                     <label for="instagram">Instagram</label>
-                    <input id="instagram" type="text" name="instagram" required placeholder="Ex: @votrecompte" autocomplete="username" autocapitalize="off" autocorrect="off">
+                    <div class="input-wrap">
+                        <span class="input-icon">📸</span>
+                        <input id="instagram" type="text" name="instagram" required placeholder="@votrecompte" autocomplete="username" autocapitalize="off" autocorrect="off">
+                    </div>
                 </div>
 
-                <div class="grid">
+                <div class="grid-2">
                     <div class="field">
                         <label for="email">Email</label>
-                        <input id="email" type="email" name="email" required placeholder="Ex: sara@email.com" autocomplete="email" inputmode="email" autocapitalize="off">
+                        <div class="input-wrap">
+                            <span class="input-icon">📧</span>
+                            <input id="email" type="email" name="email" required placeholder="sara@email.com" autocomplete="email" inputmode="email" autocapitalize="off">
+                        </div>
                     </div>
                     <div class="field">
-                        <label for="telephone">Numero de telephone</label>
-                        <input id="telephone" type="tel" name="telephone" required placeholder="Ex: 0550 00 00 00" autocomplete="tel" inputmode="tel">
+                        <label for="telephone">Téléphone</label>
+                        <div class="input-wrap">
+                            <span class="input-icon">📱</span>
+                            <input id="telephone" type="tel" name="telephone" required placeholder="0550 00 00 00" autocomplete="tel" inputmode="tel">
+                        </div>
                     </div>
                 </div>
 
-                <div class="field">
-                    <label for="photo">Image du gateau</label>
-                    <input id="photo" type="file" name="photo" accept="image/*" required>
-                    <div class="file-help">
-                        Formats acceptes: PNG, JPG, JPEG. L'IA Gemini valide seulement si l'image contient
-                        une assiette de gateau + chocolat Soltana + paquet Maxon.
+                <hr class="divider">
+
+                <div class="file-field">
+                    <label>Photo de ton gâteau</label>
+                    <div class="file-zone" id="fileZone">
+                        <input id="photo" type="file" name="photo" accept="image/*" required>
+                        <div class="file-zone-icon">🖼️</div>
+                        <div class="file-zone-text" id="fileLabel">Clique pour choisir ou glisse ta photo ici</div>
+                        <div class="file-zone-sub">
+                            PNG, JPG, JPEG · Max 16 Mo<br>
+                            L'image doit montrer : assiette de gâteau + <strong>chocolat Soltana</strong> + <strong>paquet Maxon</strong>
+                        </div>
                     </div>
                 </div>
 
-                <button type="submit">Envoyer ma participation</button>
+                <button class="btn-submit" type="submit">
+                    <span class="btn-submit-icon">🚀</span>
+                    Envoyer ma participation
+                </button>
             </form>
+
+            <div class="admin-link">
+                <a href="/admin">Accès administrateur</a>
+            </div>
         </section>
+
     </main>
+
+    <script>
+        // File zone label update
+        const input = document.getElementById('photo');
+        const label = document.getElementById('fileLabel');
+        const zone  = document.getElementById('fileZone');
+
+        input.addEventListener('change', () => {
+            if (input.files && input.files[0]) {
+                label.textContent = '✅ ' + input.files[0].name;
+                zone.style.borderColor = '#7b4fc9';
+                zone.style.background  = 'rgba(123,79,201,0.1)';
+            }
+        });
+    </script>
 </body>
 </html>
