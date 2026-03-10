@@ -345,10 +345,21 @@ function lancerTirage() {
                 spinning = false;
                 btn.disabled = false;
                 status.textContent = '🎉 Gagnant révélé !';
-                const clean = txt.replace('Gagnant : ', '');
+
+                // Serveur renvoie: "Gagnant : Prénom Nom (email@example.com)"
+                const match = txt.match(/Gagnant\s*:\s*(.+?)\s*\(([^)]+)\)/);
+                let nomComplet = '', email = '';
+                if (match) {
+                    nomComplet = match[1].trim();
+                    email      = match[2].trim();
+                } else {
+                    nomComplet = txt.replace('Gagnant : ', '').trim();
+                }
+
                 result.innerHTML = `
                     <div class="winner-label">🏆 Gagnant du tirage au sort</div>
-                    <div class="winner-name">${clean}</div>
+                    <div class="winner-name">🎂 ${nomComplet}</div>
+                    ${email ? `<div class="winner-email">📧 ${email}</div>` : ''}
                 `;
                 result.className = 'show-win';
                 launchConfetti();

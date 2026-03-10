@@ -303,7 +303,7 @@
                 </button>
             </form>
 
-            <div class="admin-link"><a href="/admin" id="t-admin">Accès administrateur</a></div>
+            <!-- Admin accessible via /admin directement -->
         </section>
 
     </main>
@@ -336,7 +336,6 @@
                 't-file-main':'Clique pour choisir ou glisse ta photo ici',
                 't-file-sub': 'PNG, JPG, JPEG · Max 16 Mo<br>L\'image doit montrer : assiette de gâteau + <strong>chocolat Soltana</strong> + <strong>paquet Maxon</strong>',
                 't-submit':   'Envoyer ma participation',
-                't-admin':    'Accès administrateur',
                 'ph-nom':     'Nom de famille',
                 'ph-prenom':  'Prénom',
                 'ph-insta':   '@votrecompte',
@@ -366,7 +365,6 @@
                 't-file-main':'انقر لاختيار صورة أو اسحبها هنا',
                 't-file-sub': 'PNG, JPG, JPEG · الحجم الأقصى 16 ميغا<br>يجب أن تظهر في الصورة: طبق كعك + <strong>شوكولاتة سولتانا</strong> + <strong>علبة ماكسون</strong>',
                 't-submit':   'إرسال مشاركتي',
-                't-admin':    'لوحة تحكم المدير',
                 'ph-nom':     'اللقب',
                 'ph-prenom':  'الاسم الأول',
                 'ph-insta':   '@حسابك',
@@ -385,7 +383,7 @@
             const ids = ['t-badge','t-title','t-sub','t-req1','t-req2','t-req3','t-cake',
                          't-s1','t-s2','t-s3','t-prize-title','t-prize-sub',
                          't-form-title','t-form-sub','l-nom','l-prenom','l-instagram',
-                         'l-email','l-tel','l-photo','t-file-main','t-file-sub','t-submit','t-admin'];
+                         'l-email','l-tel','l-photo','t-file-main','t-file-sub','t-submit',]; // admin link hidden
 
             ids.forEach(id => {
                 const el = document.getElementById(id);
