@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin — Concours Maxon</title>
+    <title>Admin - Concours Maxon</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -31,7 +31,7 @@
             padding: clamp(16px, 2.5vw, 32px) clamp(12px, 2vw, 20px);
         }
         body::before {
-            content: "🎂 🍫 🎂 🍫 🎂 🍫";
+            content: "&#127874; &#127853; &#127874; &#127853;";
             position: fixed; inset: 0;
             font-size: 28px; word-spacing: 50px; line-height: 90px; letter-spacing: 40px;
             opacity: 0.03; pointer-events: none; z-index: 0; overflow: hidden;
@@ -55,7 +55,7 @@
         .stat .stat-value { font-family: 'Playfair Display', serif; font-size: 44px; font-weight: 900; color: #fff; line-height: 1; margin-top: 4px; }
         .stat .stat-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-size: 36px; opacity: 0.18; }
 
-        /* Cards */
+        /* Section card */
         .section-card { background: var(--white); border: 1px solid rgba(154,111,224,0.15); border-radius: 20px; padding: 22px 20px; margin-bottom: 18px; box-shadow: 0 16px 44px rgba(10,0,30,0.18); position: relative; overflow: hidden; animation: fadeUp .4s .1s ease both; }
         .section-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--maxon-purple), var(--maxon-violet-glow), var(--soltana-gold)); }
         .section-title { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--maxon-purple); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
@@ -75,6 +75,17 @@
         .status-badge.invalid::before { content: "✗ "; }
         .analysis-cell { font-size: 12px; color: #6b5d7a; line-height: 1.45; max-width: 280px; }
 
+        /* Tirage */
+        .draw-desc { font-size: 14px; color: var(--muted); margin-bottom: 16px; line-height: 1.6; }
+        .btn-draw { border: 0; border-radius: 14px; padding: 16px 28px; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; color: #fff; background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930); box-shadow: 0 8px 24px rgba(61,26,110,0.45); display: inline-flex; align-items: center; gap: 10px; transition: transform .12s, box-shadow .12s; }
+        .btn-draw:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(61,26,110,0.55); }
+        .btn-draw:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+        #draw-result { display: none; margin-top: 18px; padding: 18px 20px; border-radius: 14px; }
+        #draw-result.show-win { display: block; background: linear-gradient(135deg, #e8f5e9, #f0fff4); border: 2px solid #81c784; }
+        .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #2e7d32; margin-bottom: 8px; }
+        .winner-name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: #1b5e20; }
+        .winner-email { font-size: 13px; color: #388e3c; margin-top: 6px; }
+
         /* Mobile */
         .desktop-table { display: block; }
         .mobile-list { display: none; }
@@ -85,34 +96,8 @@
         .mobile-row { display: grid; grid-template-columns: 100px 1fr; gap: 6px; font-size: 13px; margin-top: 6px; align-items: start; }
         .mobile-row span:first-child { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; color: var(--muted); padding-top: 1px; }
 
-        /* ════ WHEEL ════ */
-        .draw-layout { display: grid; grid-template-columns: 1fr 340px; gap: 28px; align-items: start; }
-        .draw-info { display: flex; flex-direction: column; gap: 16px; }
-        .draw-desc { font-size: 14px; color: var(--muted); line-height: 1.6; }
-        .btn-draw { border: 0; border-radius: 14px; padding: 16px 28px; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; color: #fff; background: linear-gradient(135deg, var(--maxon-purple-light), var(--maxon-purple), #1a0930); box-shadow: 0 8px 24px rgba(61,26,110,0.45); display: inline-flex; align-items: center; gap: 10px; transition: transform .12s, box-shadow .12s; align-self: flex-start; }
-        .btn-draw:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(61,26,110,0.55); }
-        .btn-draw:disabled { opacity: .5; cursor: not-allowed; transform: none; }
-        #draw-result { display: none; padding: 16px 18px; border-radius: 14px; font-size: 15px; font-weight: 700; line-height: 1.5; }
-        #draw-result.show-win { display: block; background: linear-gradient(135deg, #e8f5e9, #f0fff4); border: 2px solid #81c784; color: #1b5e20; }
-        .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #2e7d32; margin-bottom: 6px; }
-        .winner-name { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 900; color: #1b5e20; }
-        .winner-email { font-size: 13px; color: #388e3c; margin-top: 4px; }
-
-        .wheel-container { display: flex; flex-direction: column; align-items: center; gap: 12px; }
-        .wheel-wrap { position: relative; width: 300px; height: 300px; }
-        .wheel-pointer { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); z-index: 10; width: 0; height: 0; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 30px solid var(--soltana-gold); filter: drop-shadow(0 4px 10px rgba(232,168,37,0.7)); }
-        .wheel-pointer::after { content: ""; position: absolute; top: -42px; left: -10px; width: 20px; height: 20px; background: var(--soltana-gold); border-radius: 50%; box-shadow: 0 0 10px rgba(232,168,37,0.6); }
-        canvas#wheel { width: 300px; height: 300px; border-radius: 50%; box-shadow: 0 0 0 6px rgba(61,26,110,0.2), 0 0 0 12px rgba(154,111,224,0.1), 0 20px 50px rgba(10,0,30,0.35); display: block; }
-        .wheel-hub { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--soltana-gold), var(--soltana-caramel)); border: 4px solid #fff; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 5; font-size: 20px; display: flex; align-items: center; justify-content: center; }
-        .wheel-status { font-size: 13px; font-weight: 700; color: rgba(220,205,255,0.7); text-align: center; min-height: 20px; }
-
-        /* Confetti */
-        .confetti-piece { position: fixed; pointer-events: none; z-index: 9999; border-radius: 2px; animation: confettiFall linear forwards; }
-        @keyframes confettiFall { 0% { transform: translateY(-20px) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) rotate(720deg); opacity: 0; } }
-
-        @media (max-width: 960px) { .draw-layout { grid-template-columns: 1fr; } .wheel-container { order: -1; } }
-        @media (max-width: 900px) { .stats { grid-template-columns: 1fr; } .desktop-table { display: none; } .mobile-list { display: block; } }
-        @media (max-width: 480px) { body { padding: 10px 8px; } .wheel-wrap { width: 260px; height: 260px; } canvas#wheel { width: 260px; height: 260px; } }
+        @media (max-width: 900px) { .stats { grid-template-columns: 1fr; } .desktop-table { display: none; } .mobile-list { display: block; } .btn-draw { width: 100%; justify-content: center; } }
+        @media (max-width: 480px) { body { padding: 10px 8px; } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
@@ -121,37 +106,37 @@
 
     <div class="page-head">
         <div class="page-head-left">
-            <div class="head-icon">🎂</div>
+            <div class="head-icon">&#127874;</div>
             <div>
                 <h1>Tableau de bord Admin</h1>
-                <p>Concours Photo Maxon × Soltana</p>
+                <p>Concours Photo Maxon &times; Soltana</p>
             </div>
         </div>
-        <a href="/" class="back-link">← Retour au formulaire</a>
+        <a href="/" class="back-link">&larr; Retour au formulaire</a>
     </div>
 
     <div class="stats">
         <div class="stat">
             <div class="stat-label">Total participants</div>
             <div class="stat-value">{{ participants|length }}</div>
-            <div class="stat-icon">👥</div>
+            <div class="stat-icon">&#128101;</div>
         </div>
         <div class="stat">
             <div class="stat-label">Participants valides</div>
             <div class="stat-value">{{ valides|length }}</div>
-            <div class="stat-icon">✅</div>
+            <div class="stat-icon">&#9989;</div>
         </div>
     </div>
 
     <section class="section-card">
-        <h2 class="section-title">🏅 Participants</h2>
+        <h2 class="section-title">&#127885; Participants</h2>
         <div class="desktop-table">
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
-                            <th>Photo</th><th>Nom</th><th>Prénom</th><th>Instagram</th>
-                            <th>Email</th><th>Téléphone</th><th>Statut</th><th>Analyse IA</th><th>Date</th>
+                            <th>Photo</th><th>Nom</th><th>Pr&eacute;nom</th><th>Instagram</th>
+                            <th>Email</th><th>T&eacute;l&eacute;phone</th><th>Statut</th><th>Analyse IA</th><th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -163,7 +148,7 @@
                             <td>{{ p['instagram'] or '-' }}</td>
                             <td>{{ p['email'] }}</td>
                             <td>{{ p['telephone'] or '-' }}</td>
-                            <td><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}</span></td>
+                            <td><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Reject&eacute;{% endif %}</span></td>
                             <td class="analysis-cell">{{ p['analyse_detail'] or '-' }}</td>
                             <td>{{ p['date_inscription'] }}</td>
                         </tr>
@@ -181,195 +166,57 @@
                 </div>
                 <div class="mobile-row"><span>Instagram</span><span>{{ p['instagram'] or '-' }}</span></div>
                 <div class="mobile-row"><span>Email</span><span>{{ p['email'] }}</span></div>
-                <div class="mobile-row"><span>Téléphone</span><span>{{ p['telephone'] or '-' }}</span></div>
-                <div class="mobile-row"><span>Statut</span><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Rejeté{% endif %}</span></div>
+                <div class="mobile-row"><span>T&eacute;l&eacute;phone</span><span>{{ p['telephone'] or '-' }}</span></div>
+                <div class="mobile-row"><span>Statut</span><span class="status-badge {% if p['est_valide'] %}valid{% else %}invalid{% endif %}">{% if p['est_valide'] %}Valide{% else %}Reject&eacute;{% endif %}</span></div>
                 <div class="mobile-row"><span>Analyse IA</span><span>{{ p['analyse_detail'] or '-' }}</span></div>
             </article>
             {% endfor %}
         </div>
     </section>
 
-    <!-- TIRAGE ROUE -->
     <section class="section-card">
-        <h2 class="section-title">🎲 Tirage au sort</h2>
-        <div class="draw-layout">
-            <div class="draw-info">
-                <p class="draw-desc">Le tirage se fait parmi les <strong>{{ valides|length }}</strong> participants valides. Clique sur le bouton pour faire tourner la roue et révéler le gagnant !</p>
-                <button class="btn-draw" id="btnDraw" onclick="lancerTirage()">🎰 Lancer le tirage</button>
-                <div id="draw-result"></div>
-            </div>
-            <div class="wheel-container">
-                <div class="wheel-wrap">
-                    <div class="wheel-pointer"></div>
-                    <canvas id="wheel" width="600" height="600"></canvas>
-                    <div class="wheel-hub">🎂</div>
-                </div>
-                <div class="wheel-status" id="wheelStatus">Prêt pour le tirage ✨</div>
-            </div>
-        </div>
+        <h2 class="section-title">&#127922; Tirage au sort</h2>
+        <p class="draw-desc">Le tirage se fait uniquement parmi les <strong>{{ valides|length }}</strong> participants valides.</p>
+        <button class="btn-draw" id="btnDraw" onclick="lancerTirage()">&#127920; Lancer le tirage</button>
+        <div id="draw-result"></div>
     </section>
 
 </div>
 
 <script>
-// Participants injectés par Jinja2
-const PARTICIPANTS = [{% for p in valides %}{ name: {{ ((p['prenom'] or '') ~ ' ' ~ p['nom']) | tojson }}, email: {{ p['email'] | tojson }} },{% endfor %}];
-
-const canvas = document.getElementById('wheel');
-const ctx    = canvas.getContext('2d');
-const SZ = 600, CX = 300, CY = 300, R = 290;
-
-const PALETTE = [
-    '#3d1a6e','#7b4fc9','#c47a2b','#5a2d9c',
-    '#e8a825','#9b6fe0','#4a1580','#d4901a',
-    '#6b35b0','#2a0f52','#8b5fc0','#b86a20',
-];
-
-let rotation = 0, spinning = false;
-
-function drawWheel(rot) {
-    ctx.clearRect(0, 0, SZ, SZ);
-    const items = PARTICIPANTS.length ? PARTICIPANTS : [{ name: 'Aucun participant', email: '' }];
-    const seg = (2 * Math.PI) / items.length;
-
-    items.forEach((p, i) => {
-        const a0 = rot + i * seg, a1 = a0 + seg;
-
-        // Wedge
-        ctx.beginPath();
-        ctx.moveTo(CX, CY);
-        ctx.arc(CX, CY, R, a0, a1);
-        ctx.closePath();
-        ctx.fillStyle = PALETTE[i % PALETTE.length];
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Lighter strip at outer edge
-        const grad = ctx.createRadialGradient(CX, CY, R * 0.6, CX, CY, R);
-        grad.addColorStop(0, 'transparent');
-        grad.addColorStop(1, 'rgba(255,255,255,0.08)');
-        ctx.beginPath();
-        ctx.moveTo(CX, CY);
-        ctx.arc(CX, CY, R, a0, a1);
-        ctx.closePath();
-        ctx.fillStyle = grad;
-        ctx.fill();
-
-        // Text
-        ctx.save();
-        ctx.translate(CX, CY);
-        ctx.rotate(a0 + seg / 2);
-        const maxLen = items.length > 10 ? 10 : 14;
-        const label  = p.name.trim().length > maxLen ? p.name.trim().substring(0, maxLen - 1) + '…' : p.name.trim();
-        const fs = items.length > 14 ? 13 : items.length > 8 ? 16 : 19;
-        ctx.font = `800 ${fs}px Nunito, sans-serif`;
-        ctx.fillStyle = '#fff';
-        ctx.textAlign = 'right';
-        ctx.shadowColor = 'rgba(0,0,0,0.6)';
-        ctx.shadowBlur = 5;
-        ctx.fillText(label, R - 16, fs * 0.38);
-        ctx.restore();
-    });
-
-    // Gold outer ring
-    ctx.beginPath();
-    ctx.arc(CX, CY, R, 0, 2 * Math.PI);
-    ctx.strokeStyle = '#e8a825';
-    ctx.lineWidth = 7;
-    ctx.stroke();
-
-    // Glow ring
-    ctx.beginPath();
-    ctx.arc(CX, CY, R + 2, 0, 2 * Math.PI);
-    ctx.strokeStyle = 'rgba(232,168,37,0.3)';
-    ctx.lineWidth = 12;
-    ctx.stroke();
-}
-
-drawWheel(rotation);
-
-function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
-
-function animateSpin(from, to, duration, done) {
-    const start = performance.now();
-    (function frame(now) {
-        const t = Math.min((now - start) / duration, 1);
-        rotation = from + (to - from) * easeOut(t);
-        drawWheel(rotation);
-        t < 1 ? requestAnimationFrame(frame) : done();
-    })(performance.now());
-}
-
-function launchConfetti() {
-    const colors = ['#e8a825','#7b4fc9','#fff','#c47a2b','#9b6fe0','#3d1a6e','#f0c040'];
-    for (let i = 0; i < 140; i++) {
-        const el = document.createElement('div');
-        el.className = 'confetti-piece';
-        el.style.cssText = `
-            left:${Math.random()*100}vw; top:-20px;
-            width:${6+Math.random()*8}px; height:${6+Math.random()*8}px;
-            background:${colors[Math.floor(Math.random()*colors.length)]};
-            border-radius:${Math.random()>.5?'50%':'3px'};
-            animation-duration:${2+Math.random()*2.5}s;
-            animation-delay:${Math.random()*.8}s;
-        `;
-        document.body.appendChild(el);
-        el.addEventListener('animationend', () => el.remove());
-    }
-}
-
 function lancerTirage() {
-    if (spinning || !PARTICIPANTS.length) {
-        if (!PARTICIPANTS.length) document.getElementById('wheelStatus').textContent = '⚠️ Aucun participant valide';
-        return;
-    }
-    spinning = true;
-    const btn    = document.getElementById('btnDraw');
-    const result = document.getElementById('draw-result');
-    const status = document.getElementById('wheelStatus');
+    var btn    = document.getElementById('btnDraw');
+    var result = document.getElementById('draw-result');
     btn.disabled = true;
     result.className = '';
     result.style.display = 'none';
-    status.textContent  = '🎲 La roue tourne…';
+    result.innerHTML = '';
 
     fetch('/tirage', { method: 'POST' })
-        .then(r => r.text())
-        .then(txt => {
-            const spins  = (6 + Math.floor(Math.random() * 5)) * 2 * Math.PI;
-            const offset = Math.random() * 2 * Math.PI;
-            const target = rotation - spins - offset;
-
-            animateSpin(rotation, target, 5000, () => {
-                spinning = false;
-                btn.disabled = false;
-                status.textContent = '🎉 Gagnant révélé !';
-
-                // Parse: "Gagnant : Prénom Nom (email)"
-                var txt2 = txt.trim();
-                var nomComplet = txt2;
-                var winEmail = '';
-                var pi = txt2.lastIndexOf('(');
-                var pj = txt2.lastIndexOf(')');
-                if (pi !== -1 && pj > pi) {
-                    winEmail = txt2.slice(pi + 1, pj).trim();
-                    nomComplet = txt2.slice(0, pi).trim().replace('Gagnant : ', '').replace('Gagnant:', '').trim();
-                } else {
-                    nomComplet = txt2.replace('Gagnant : ', '').replace('Gagnant:', '').trim();
-                }
-                result.innerHTML =
-                    '<div class="winner-label">🏆 Gagnant du tirage au sort</div>' +
-                    '<div class="winner-name">🎂 ' + nomComplet + '</div>' +
-                    (winEmail ? '<div class="winner-email">📧 ' + winEmail + '</div>' : '');
-                result.className = 'show-win';
-                launchConfetti();
-            });
-        })
-        .catch(() => {
-            spinning = false;
+        .then(function(r) { return r.text(); })
+        .then(function(txt) {
+            var t = txt.trim();
+            var nom = t;
+            var mail = '';
+            var pi = t.lastIndexOf('(');
+            var pj = t.lastIndexOf(')');
+            if (pi !== -1 && pj > pi) {
+                mail = t.slice(pi + 1, pj).trim();
+                nom  = t.slice(0, pi).trim().replace('Gagnant : ', '').trim();
+            } else {
+                nom = t.replace('Gagnant : ', '').trim();
+            }
+            result.innerHTML =
+                '<div class="winner-label">Gagnant du tirage au sort</div>' +
+                '<div class="winner-name">' + nom + '</div>' +
+                (mail ? '<div class="winner-email">' + mail + '</div>' : '');
+            result.className = 'show-win';
             btn.disabled = false;
-            status.textContent = '❌ Erreur serveur';
+        })
+        .catch(function() {
+            result.innerHTML = 'Erreur lors du tirage.';
+            result.style.display = 'block';
+            btn.disabled = false;
         });
 }
 </script>
