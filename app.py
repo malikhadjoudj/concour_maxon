@@ -52,7 +52,7 @@ app.secret_key = os.getenv("SECRET_KEY", "cle_secrete_concours_2024")
 # CONFIGURATION
 # ---------------------------------------------------------------------------
 
-UPLOAD_FOLDER = "uploads"
+UPLOAD_FOLDER = "/app/uploads"
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 app.config["MAX_CONTENT_LENGTH"] = 16 * 1024 * 1024  # 16 MB
