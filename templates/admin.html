@@ -346,21 +346,22 @@ function lancerTirage() {
                 btn.disabled = false;
                 status.textContent = '🎉 Gagnant révélé !';
 
-                // Serveur renvoie: "Gagnant : Prénom Nom (email@example.com)"
-                const match = txt.match(/Gagnant\s*:\s*(.+?)\s*\(([^)]+)\)/);
-                let nomComplet = '', email = '';
-                if (match) {
-                    nomComplet = match[1].trim();
-                    email      = match[2].trim();
+                // Parse: "Gagnant : Prénom Nom (email)"
+                var txt2 = txt.trim();
+                var nomComplet = txt2;
+                var winEmail = '';
+                var pi = txt2.lastIndexOf('(');
+                var pj = txt2.lastIndexOf(')');
+                if (pi !== -1 && pj > pi) {
+                    winEmail = txt2.slice(pi + 1, pj).trim();
+                    nomComplet = txt2.slice(0, pi).trim().replace('Gagnant : ', '').replace('Gagnant:', '').trim();
                 } else {
-                    nomComplet = txt.replace('Gagnant : ', '').trim();
+                    nomComplet = txt2.replace('Gagnant : ', '').replace('Gagnant:', '').trim();
                 }
-
-                result.innerHTML = `
-                    <div class="winner-label">🏆 Gagnant du tirage au sort</div>
-                    <div class="winner-name">🎂 ${nomComplet}</div>
-                    ${email ? `<div class="winner-email">📧 ${email}</div>` : ''}
-                `;
+                result.innerHTML =
+                    '<div class="winner-label">🏆 Gagnant du tirage au sort</div>' +
+                    '<div class="winner-name">🎂 ' + nomComplet + '</div>' +
+                    (winEmail ? '<div class="winner-email">📧 ' + winEmail + '</div>' : '');
                 result.className = 'show-win';
                 launchConfetti();
             });
