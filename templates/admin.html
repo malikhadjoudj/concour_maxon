@@ -81,7 +81,7 @@
         .btn-draw:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(61,26,110,0.55); }
         .btn-draw:disabled { opacity: .5; cursor: not-allowed; transform: none; }
         #draw-result { display: none; margin-top: 18px; padding: 18px 20px; border-radius: 14px; }
-        #draw-result.show-win { display: block; background: linear-gradient(135deg, #e8f5e9, #f0fff4); border: 2px solid #81c784; }
+        #draw-result.show-win { display: block !important; background: linear-gradient(135deg, #e8f5e9, #f0fff4); border: 2px solid #81c784; }
         .winner-label { font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: #2e7d32; margin-bottom: 8px; }
         .winner-name { font-family: 'Playfair Display', serif; font-size: 26px; font-weight: 900; color: #1b5e20; }
         .winner-email { font-size: 13px; color: #388e3c; margin-top: 6px; }
@@ -193,7 +193,10 @@ function lancerTirage() {
     result.innerHTML = '';
 
     fetch('/tirage', { method: 'POST' })
-        .then(function(r) { return r.text(); })
+        .then(function(r) {
+            if (!r.ok) { return r.text().then(function(t) { throw new Error(t || 'Erreur ' + r.status); }); }
+            return r.text();
+        })
         .then(function(txt) {
             var t = txt.trim();
             var nom = t;
@@ -210,11 +213,12 @@ function lancerTirage() {
                 '<div class="winner-label">Gagnant du tirage au sort</div>' +
                 '<div class="winner-name">' + nom + '</div>' +
                 (mail ? '<div class="winner-email">' + mail + '</div>' : '');
+            result.style.display = 'block';
             result.className = 'show-win';
             btn.disabled = false;
         })
-        .catch(function() {
-            result.innerHTML = 'Erreur lors du tirage.';
+        .catch(function(err) {
+            result.innerHTML = '<div style="color:#a62922;font-weight:700;">&#10060; ' + (err.message || 'Erreur lors du tirage.') + '</div>';
             result.style.display = 'block';
             btn.disabled = false;
         });
